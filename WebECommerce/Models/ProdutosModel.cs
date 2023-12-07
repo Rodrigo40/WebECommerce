@@ -1,67 +1,27 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
 using WebECommerce.Entity;
+
 namespace WebECommerce.Models
 {
-    public class UsuarioModel
+    public class ProdutosModel
     {
-        // Metodo de login
-        public List<UsuarioEntity> Login(UsuarioEntity user)
+        #region Padrão Singleton
+        private static ProdutosModel Instancia = null;
+        public ProdutosModel() { }
+        public static ProdutosModel GetInstacia()
         {
-            // Instanciando a class de conexão string
-            List<UsuarioEntity> ListaUsers = new List<UsuarioEntity>();
-            ConexaoModel conex = new ConexaoModel();
-            try
+            if ( Instancia == null )
             {
-                //Instanciando a class de conexão do MySql
-                MySqlConnection con = new MySqlConnection();
-                //Definindo a conexão string
-                con.ConnectionString = conex.GetConnection();
-                //Abrindo a conexão com o servidor
-                con.Open();
-
-                //Instanciando a class de comando do MySql
-                MySqlCommand cmd = new MySqlCommand();
-                //Conectando o comando com a conexão
-                cmd.Connection = con;
-                //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
-                //Definindo o comando de consulta sql
-                cmd.CommandText = "loginUsuario"; // Consulta Sql
-                cmd.Parameters.AddWithValue("email", user.Email);
-                cmd.Parameters.AddWithValue("password", user.Password);
-                //cmd.CommandText = "Login";
-                //cmd.Parameters.AddWithValue("email",user.Email);
-                //cmd.Parameters.AddWithValue("password",user.Password);
-                //Definindo o objeto MySqlDataReader para executar o comando
-                //E Ler a resposta ou seja: trará a resposta do comando
-                MySqlDataReader adapter = cmd.ExecuteReader();
-
-                //Verifinado se exitem linhas na resposta do comando
-                if (adapter.HasRows)
-                {
-                    while (adapter.Read())
-                    {
-                        UsuarioEntity entity = new UsuarioEntity();
-                        entity.Id = Convert.ToInt32(adapter["id"].ToString());
-                        entity.Nome = adapter["nome"].ToString();
-                        entity.Email = adapter["email"].ToString();
-                        entity.IdTipo = Convert.ToInt32(adapter["idTipo"].ToString());
-                        ListaUsers.Add(entity);
-                    }
-                    adapter.Close();
-                }
+                Instancia = new ProdutosModel();
             }
-            catch (Exception)
-            {
-
-            }
-
-            return ListaUsers;
+            return Instancia;
         }
-        public List<UsuarioEntity> ListarUsuarios()
+        #endregion
+
+        public List<ProdutosEntity> ListarProdutos()
         {
-            List<UsuarioEntity> ListaUsers = new List<UsuarioEntity>();
+            List<ProdutosEntity> ListaProdutos = new List<ProdutosEntity>();
             ConexaoModel conex = new ConexaoModel();
             //Instanciando a class de conexão do MySql
             MySqlConnection con = new MySqlConnection();
@@ -80,7 +40,7 @@ namespace WebECommerce.Models
                 //Definindo o tipo de comando a usar
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "listarUsuario"; // Consulta Sql
+                cmd.CommandText = "listarProduto"; // Consulta Sql
                 //cmd.CommandText = "Login";
                 //cmd.Parameters.AddWithValue("email",user.Email);
                 //cmd.Parameters.AddWithValue("password",user.Password);
@@ -93,12 +53,14 @@ namespace WebECommerce.Models
                 {
                     while (adapter.Read())
                     {
-                        UsuarioEntity entity = new UsuarioEntity();
+                        ProdutosEntity entity = new ProdutosEntity();
                         entity.Id = Convert.ToInt32(adapter["id"].ToString());
                         entity.Nome = adapter["nome"].ToString();
-                        entity.Email = adapter["email"].ToString();
-                        entity.IdTipo = Convert.ToInt32(adapter["idTipo"].ToString());
-                        ListaUsers.Add(entity);
+                        entity.Preco = Convert.ToDecimal(adapter["preco"].ToString());
+                        entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
+                        entity.Desconto = Convert.ToInt32(adapter["desconto"].ToString());
+                        entity.Imagem = adapter["iamgem"].ToString();
+                        ListaProdutos.Add(entity);
                     }
                     adapter.Close();
                 }
@@ -108,9 +70,63 @@ namespace WebECommerce.Models
                 con = null;
                 cmd = null;
             }
-            return ListaUsers;
+            return ListaProdutos;
         }
-        public string Novo(UsuarioEntity user)
+        public List<ProdutosEntity> ListarProdutosById(ProdutosEntity produto)
+        {
+            List<ProdutosEntity> ListaProdutos = new List<ProdutosEntity>();
+            ConexaoModel conex = new ConexaoModel();
+            //Instanciando a class de conexão do MySql
+            MySqlConnection con = new MySqlConnection();
+            //Instanciando a class de comando do MySql
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.StoredProcedure;
+                //Definindo o comando de consulta sql
+                cmd.CommandText = "listarProdutoById"; // Consulta Sql
+                cmd.Parameters.AddWithValue("id",produto.Id);
+                //cmd.CommandText = "Login";
+                //cmd.Parameters.AddWithValue("email",user.Email);
+                //cmd.Parameters.AddWithValue("password",user.Password);
+                //Definindo o objeto MySqlDataReader para executar o comando
+                //E Ler a resposta ou seja: trará a resposta do comando
+                MySqlDataReader adapter = cmd.ExecuteReader();
+
+                //Verifinado se exitem linhas na resposta do comando
+                if (adapter.HasRows)
+                {
+                    while (adapter.Read())
+                    {
+                        ProdutosEntity entity = new ProdutosEntity();
+                        entity.Id = Convert.ToInt32(adapter["id"].ToString());
+                        entity.Nome = adapter["nome"].ToString();
+                        entity.Preco = Convert.ToDecimal(adapter["preco"].ToString());
+                        entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
+                        entity.Desconto = Convert.ToInt32(adapter["desconto"].ToString());
+                        entity.Imagem = adapter["iamgem"].ToString();
+                        ListaProdutos.Add(entity);
+                    }
+                    adapter.Close();
+                }
+            }
+            catch (Exception)
+            {
+                con = null;
+                cmd = null;
+            }
+            return ListaProdutos;
+        }
+        public string Novo(ProdutosEntity produto)
         {
             // Instanciando a class de conexão string
             ConexaoModel conex = new ConexaoModel();
@@ -131,19 +147,20 @@ namespace WebECommerce.Models
                 //Definindo o tipo de comando a usar
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "novoUsuario"; // Consulta Sql
+                cmd.CommandText = "novoProduto"; // Consulta Sql
 
-                cmd.Parameters.AddWithValue("nome", user.Nome);
-                cmd.Parameters.AddWithValue("email", user.Email);
-                cmd.Parameters.AddWithValue("password", user.Password);
-                cmd.Parameters.AddWithValue("idTipo", user.IdTipo);
+                cmd.Parameters.AddWithValue("nome", produto.Nome);
+                cmd.Parameters.AddWithValue("preco", produto.Preco);
+                cmd.Parameters.AddWithValue("quantidade", produto.Quantidade);
+                cmd.Parameters.AddWithValue("desconto", produto.Desconto);
+                cmd.Parameters.AddWithValue("imagem", produto.Imagem);
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
-                    resposta = "Usuario registrado com sucesso";
+                    resposta = "Produto registrado com sucesso";
                 }
                 else
-                    resposta = "Erro: usuario não registrado!";
+                    resposta = "Erro: Produto não registrado!";
             }
             catch (Exception)
             {
@@ -152,7 +169,7 @@ namespace WebECommerce.Models
 
             return resposta;
         }
-        public string Editar(UsuarioEntity user)
+        public string Editar(ProdutosEntity produto)
         {
             // Instanciando a class de conexão string
             ConexaoModel conex = new ConexaoModel();
@@ -173,20 +190,21 @@ namespace WebECommerce.Models
                 //Definindo o tipo de comando a usar
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "editarUsuario"; // Consulta Sql
+                cmd.CommandText = "editarProduto"; // Consulta Sql
 
-                cmd.Parameters.AddWithValue("nome", user.Nome);
-                cmd.Parameters.AddWithValue("email", user.Email);
-                cmd.Parameters.AddWithValue("password", user.Password);
-                cmd.Parameters.AddWithValue("idTipo", user.IdTipo);
-                cmd.Parameters.AddWithValue("id", user.Id);
+                cmd.Parameters.AddWithValue("id", produto.Id);
+                cmd.Parameters.AddWithValue("nome", produto.Nome);
+                cmd.Parameters.AddWithValue("preco", produto.Preco);
+                cmd.Parameters.AddWithValue("quantidade", produto.Quantidade);
+                cmd.Parameters.AddWithValue("desconto", produto.Desconto);
+                cmd.Parameters.AddWithValue("imagem", produto.Imagem);
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
-                    resposta = "Usuario atualizado com sucesso";
+                    resposta = "Produto atualizado com sucesso";
                 }
                 else
-                    resposta = "Erro: usuario não atualizado!";
+                    resposta = "Erro: Produto não atualizado!";
             }
             catch (Exception)
             {
@@ -195,7 +213,7 @@ namespace WebECommerce.Models
 
             return resposta;
         }
-        public string Eliminar(UsuarioEntity user)
+        public string Eliminar(ProdutosEntity produto)
         {
             // Instanciando a class de conexão string
             ConexaoModel conex = new ConexaoModel();
@@ -216,16 +234,16 @@ namespace WebECommerce.Models
                 //Definindo o tipo de comando a usar
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "eliminarUsuario"; // Consulta Sql
+                cmd.CommandText = "eliminarProduto"; // Consulta Sql
 
-                cmd.Parameters.AddWithValue("id", user.Id);
+                cmd.Parameters.AddWithValue("id", produto.Id);
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
-                    resposta = "Usuario eliminado com sucesso";
+                    resposta = "Produto eliminado com sucesso";
                 }
                 else
-                    resposta = "Erro: usuario não eliminado!";
+                    resposta = "Erro: Produto não eliminado!";
             }
             catch (Exception)
             {

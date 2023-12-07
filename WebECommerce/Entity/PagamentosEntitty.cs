@@ -3,6 +3,7 @@
     public class PagamentosEntitty
     {
         public int Id { get; set; }
+        public int IdTipoPagamento { get; set; }
         public int IdProduto { get; set; }
         public int IdCliente { get; set; }
         public decimal Preco { get; set; }

@@ -1,67 +1,14 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
 using WebECommerce.Entity;
+
 namespace WebECommerce.Models
 {
-    public class UsuarioModel
+    public class TipoUsuarioModel
     {
-        // Metodo de login
-        public List<UsuarioEntity> Login(UsuarioEntity user)
+        public List<TipoUsuarioEntity> ListarTipoUsuario()
         {
-            // Instanciando a class de conexão string
-            List<UsuarioEntity> ListaUsers = new List<UsuarioEntity>();
-            ConexaoModel conex = new ConexaoModel();
-            try
-            {
-                //Instanciando a class de conexão do MySql
-                MySqlConnection con = new MySqlConnection();
-                //Definindo a conexão string
-                con.ConnectionString = conex.GetConnection();
-                //Abrindo a conexão com o servidor
-                con.Open();
-
-                //Instanciando a class de comando do MySql
-                MySqlCommand cmd = new MySqlCommand();
-                //Conectando o comando com a conexão
-                cmd.Connection = con;
-                //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
-                //Definindo o comando de consulta sql
-                cmd.CommandText = "loginUsuario"; // Consulta Sql
-                cmd.Parameters.AddWithValue("email", user.Email);
-                cmd.Parameters.AddWithValue("password", user.Password);
-                //cmd.CommandText = "Login";
-                //cmd.Parameters.AddWithValue("email",user.Email);
-                //cmd.Parameters.AddWithValue("password",user.Password);
-                //Definindo o objeto MySqlDataReader para executar o comando
-                //E Ler a resposta ou seja: trará a resposta do comando
-                MySqlDataReader adapter = cmd.ExecuteReader();
-
-                //Verifinado se exitem linhas na resposta do comando
-                if (adapter.HasRows)
-                {
-                    while (adapter.Read())
-                    {
-                        UsuarioEntity entity = new UsuarioEntity();
-                        entity.Id = Convert.ToInt32(adapter["id"].ToString());
-                        entity.Nome = adapter["nome"].ToString();
-                        entity.Email = adapter["email"].ToString();
-                        entity.IdTipo = Convert.ToInt32(adapter["idTipo"].ToString());
-                        ListaUsers.Add(entity);
-                    }
-                    adapter.Close();
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-
-            return ListaUsers;
-        }
-        public List<UsuarioEntity> ListarUsuarios()
-        {
-            List<UsuarioEntity> ListaUsers = new List<UsuarioEntity>();
+            List<TipoUsuarioEntity> ListaTipo = new List<TipoUsuarioEntity>();
             ConexaoModel conex = new ConexaoModel();
             //Instanciando a class de conexão do MySql
             MySqlConnection con = new MySqlConnection();
@@ -80,7 +27,7 @@ namespace WebECommerce.Models
                 //Definindo o tipo de comando a usar
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "listarUsuario"; // Consulta Sql
+                cmd.CommandText = "listarTipoUsuario"; // Consulta Sql
                 //cmd.CommandText = "Login";
                 //cmd.Parameters.AddWithValue("email",user.Email);
                 //cmd.Parameters.AddWithValue("password",user.Password);
@@ -93,12 +40,11 @@ namespace WebECommerce.Models
                 {
                     while (adapter.Read())
                     {
-                        UsuarioEntity entity = new UsuarioEntity();
+                        TipoUsuarioEntity entity = new TipoUsuarioEntity();
                         entity.Id = Convert.ToInt32(adapter["id"].ToString());
-                        entity.Nome = adapter["nome"].ToString();
-                        entity.Email = adapter["email"].ToString();
-                        entity.IdTipo = Convert.ToInt32(adapter["idTipo"].ToString());
-                        ListaUsers.Add(entity);
+                        entity.Tipo = Convert.ToInt32(adapter["tipo"].ToString());
+                        entity.Descricao = adapter["descricao"].ToString();
+                        ListaTipo.Add(entity);
                     }
                     adapter.Close();
                 }
@@ -108,9 +54,9 @@ namespace WebECommerce.Models
                 con = null;
                 cmd = null;
             }
-            return ListaUsers;
+            return ListaTipo;
         }
-        public string Novo(UsuarioEntity user)
+        public string Novo(TipoUsuarioEntity tipo)
         {
             // Instanciando a class de conexão string
             ConexaoModel conex = new ConexaoModel();
@@ -131,19 +77,17 @@ namespace WebECommerce.Models
                 //Definindo o tipo de comando a usar
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "novoUsuario"; // Consulta Sql
+                cmd.CommandText = "novoTipoUsuario"; // Consulta Sql
 
-                cmd.Parameters.AddWithValue("nome", user.Nome);
-                cmd.Parameters.AddWithValue("email", user.Email);
-                cmd.Parameters.AddWithValue("password", user.Password);
-                cmd.Parameters.AddWithValue("idTipo", user.IdTipo);
-
+                cmd.Parameters.AddWithValue("tipo", tipo.Tipo);
+                cmd.Parameters.AddWithValue("descricao", tipo.Descricao);
+ 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
-                    resposta = "Usuario registrado com sucesso";
+                    resposta = "Tipo de Usuario registrado com sucesso";
                 }
                 else
-                    resposta = "Erro: usuario não registrado!";
+                    resposta = "Erro: Tipo usuario não registrado!";
             }
             catch (Exception)
             {
@@ -152,7 +96,7 @@ namespace WebECommerce.Models
 
             return resposta;
         }
-        public string Editar(UsuarioEntity user)
+        public string Editar(TipoUsuarioEntity tipo)
         {
             // Instanciando a class de conexão string
             ConexaoModel conex = new ConexaoModel();
@@ -173,20 +117,18 @@ namespace WebECommerce.Models
                 //Definindo o tipo de comando a usar
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "editarUsuario"; // Consulta Sql
+                cmd.CommandText = "editarTipoUsuario"; // Consulta Sql
 
-                cmd.Parameters.AddWithValue("nome", user.Nome);
-                cmd.Parameters.AddWithValue("email", user.Email);
-                cmd.Parameters.AddWithValue("password", user.Password);
-                cmd.Parameters.AddWithValue("idTipo", user.IdTipo);
-                cmd.Parameters.AddWithValue("id", user.Id);
-
+                cmd.Parameters.AddWithValue("id", tipo.Id);
+                cmd.Parameters.AddWithValue("tipo", tipo.Tipo);
+                cmd.Parameters.AddWithValue("descricao", tipo.Descricao);
+ 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
-                    resposta = "Usuario atualizado com sucesso";
+                    resposta = "Tipo de Usuario atualizado com sucesso";
                 }
                 else
-                    resposta = "Erro: usuario não atualizado!";
+                    resposta = "Erro: Tipo usuario não atualizado!";
             }
             catch (Exception)
             {
@@ -195,7 +137,7 @@ namespace WebECommerce.Models
 
             return resposta;
         }
-        public string Eliminar(UsuarioEntity user)
+        public string Eliminar(TipoUsuarioEntity tipo)
         {
             // Instanciando a class de conexão string
             ConexaoModel conex = new ConexaoModel();
@@ -216,13 +158,13 @@ namespace WebECommerce.Models
                 //Definindo o tipo de comando a usar
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "eliminarUsuario"; // Consulta Sql
+                cmd.CommandText = "eliminarTipoUsuario"; // Consulta Sql
 
-                cmd.Parameters.AddWithValue("id", user.Id);
+                cmd.Parameters.AddWithValue("id", tipo.Id);
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
-                    resposta = "Usuario eliminado com sucesso";
+                    resposta = "Tipo Usuario eliminado com sucesso";
                 }
                 else
                     resposta = "Erro: usuario não eliminado!";

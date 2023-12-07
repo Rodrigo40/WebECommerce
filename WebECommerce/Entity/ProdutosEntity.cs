@@ -1,6 +1,6 @@
 ﻿namespace WebECommerce.Entity
 {
-    public class ProdutosEntitty
+    public class ProdutosEntity
     {
         public int Id { get; set; }
         public string Nome { get; set; }
