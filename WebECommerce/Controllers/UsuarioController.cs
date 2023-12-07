@@ -29,15 +29,18 @@ namespace WebECommerce.Controllers
                     var login = new UsuarioModel();
                     var resposta = login.Login(usuario);
 
-                    // Carregando os dados do usuario atual
-                    UsuarioEntity.GetInstancia().Id = Convert.ToInt32(resposta[0].Id);
-                    UsuarioEntity.GetInstancia().IdTipo = Convert.ToInt32(resposta[0].IdTipo);
-                    UsuarioEntity.GetInstancia().Nome = resposta[0].Nome;
-                    UsuarioEntity.GetInstancia().Email = resposta[0].Email;
-
-                    if (UsuarioEntity.GetInstancia().Nome != string.Empty)
+                    if (resposta.Count != 0)
                     {
-                        return RedirectToAction("Index", "Home");
+                        // Carregando os dados do usuario atual
+                        UsuarioEntity.GetInstancia().Id = Convert.ToInt32(resposta[0].Id);
+                        UsuarioEntity.GetInstancia().IdTipo = Convert.ToInt32(resposta[0].IdTipo);
+                        UsuarioEntity.GetInstancia().Nome = resposta[0].Nome;
+                        UsuarioEntity.GetInstancia().Email = resposta[0].Email;
+
+                        if (UsuarioEntity.GetInstancia().Nome != string.Empty)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
 
                 }
