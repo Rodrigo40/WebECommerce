@@ -174,7 +174,14 @@
                                                     <svg class="user">
                                                         <use xlink:href="#user"></use>
                                                     </svg>
-                                                    @WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome.Substring(0,13)
+                                                    @if (WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome.Length == 13)
+                                                    {
+                                                        @WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome.Substring(0,13)
+                                                    }
+                                                    else
+                                                    {
+                                                        @WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome                                                     
+                                                    }
                                                 </a>
                                             </li>
                                         }

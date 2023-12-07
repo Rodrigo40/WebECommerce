@@ -1,6 +1,6 @@
 ﻿namespace WebECommerce.Entity
 {
-    public class PagamentosEntitty
+    public class PagamentosEntity
     {
         public int Id { get; set; }
         public int IdTipoPagamento { get; set; }

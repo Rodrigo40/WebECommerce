@@ -42,6 +42,10 @@ namespace WebECommerce.Controllers
                             return RedirectToAction("Index", "Home");
                         }
                     }
+                    else
+                    {
+                        ViewData["sms"] = "Usuário senha incorrectos!";
+                    }
 
                 }
             }
@@ -60,8 +64,36 @@ namespace WebECommerce.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        public IActionResult Novo()
+        public IActionResult Novo(string nome, string email, string password, string idTipo)
         {
+            try
+            {
+                if (!string.IsNullOrEmpty(nome) && !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(idTipo))
+                {
+                    var entidadeU = new UsuarioEntity();
+                    var Usuario = new UsuarioModel();
+
+                    entidadeU.Nome = nome;
+                    entidadeU.Email = email;
+                    entidadeU.Password = password;
+                    entidadeU.IdTipo = Convert.ToInt32(idTipo);
+
+                    TempData["sms"] = Usuario.Novo(entidadeU);
+
+                    if (TempData["sms"].ToString() == "Usuario registrado com sucesso")
+                    {
+                        return View("Login");
+                    }
+                    else
+                    {
+                        TempData["sms"] = "Houve um erro verifique os dados!";
+                        return View();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
             return View();
         }
 

@@ -25,11 +25,11 @@ namespace WebECommerce.Models
                 //Conectando o comando com a conexão
                 cmd.Connection = con;
                 //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "loginUsuario"; // Consulta Sql
-                cmd.Parameters.AddWithValue("email", user.Email);
-                cmd.Parameters.AddWithValue("password", user.Password);
+                cmd.CommandText = $"SELECT * FROM usuario where email='{user.Email}' and password='{user.Password}';"; // Consulta Sql
+                //cmd.Parameters.AddWithValue("email", user.Email);
+                //cmd.Parameters.AddWithValue("password", user.Password);
                 //cmd.CommandText = "Login";
                 //cmd.Parameters.AddWithValue("email",user.Email);
                 //cmd.Parameters.AddWithValue("password",user.Password);

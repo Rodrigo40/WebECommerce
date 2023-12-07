@@ -1,1 +1,70 @@
-﻿
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="~/css/LoginStyle.css">
+    <link rel="stylesheet" href="~/css/all.min.css">
+
+</head>
+<body>
+    <section>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <div class="signin">
+
+            <div class="content">
+
+                <h2>CRIAR CONTA</h2>
+                <small style="font-size:18px;margin:-25px 0px 0px 0px;color:white">MINI E-COMMERCE</small>
+                <small style="font-size:12px;margin:-25px 0px -22px 0px;color:dodgerblue"><marquee>TEMOS PRODUTOS EM PROMOÇÕES APROVEITE!</marquee></small>
+
+                <div class="form">
+                    <form method="post">
+
+                        <div class="inputBox">
+                            <input name="nome" type="text" required> <i class="zmdi zmdi-account material-icons-name"> Nome</i>
+                        </div>
+
+                        <br />
+                        <div class="inputBox">
+                            <input name="email" type="password" required> <i class="zmdi zmdi-eye material-icons-name"> Email</i>
+                        </div>
+
+                        <br />
+                        <div class="inputBox">
+                            <input name="password" type="password" required> <i class="zmdi zmdi-eye material-icons-name"> Password</i>
+                        </div>
+                        <br />
+
+                        <br />
+                        <div class="inputBox" hidden="hidden">
+                            <input name="idTipo" type="text" value="2"> <i class="zmdi zmdi-eye material-icons-name"> IdTipo</i>
+                        </div>
+                        <div class="links">
+                            <a asp-area="" asp-action="Login">Eu tenho uma conta!</a>
+                        </div>
+                        <br />
+                        <div class="inputBox">
+
+                            <input type="submit" value="Criar">
+
+                        </div>
+
+                    </form>
+                    <div class="errorInfo" style="color:tomato">
+                        <p>@TempData["sms"]</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    <script src="~/js/all.min.js" asp-append-version="true"></script>
+</body>
+
+</html>

@@ -37,6 +37,7 @@
                         <br />
                         <div class="links">
                             <a href="#">Esqueci minha senha</a> <a hidden="hidden" href="#">Inscreva-se</a>
+                            <a asp-area="" asp-action="Novo">Criar conta</a> <a hidden="hidden" href="#">Inscreva-se</a>
                         </div>
                         <br />
                         <div class="inputBox">
@@ -47,7 +48,7 @@
 
                     </form>
                     <div class="errorInfo" style="color:tomato">
-                       <p>@ViewBag.user</p>
+                       <p>@ViewData["sms"]</p>
                     </div>
                 </div>
 
