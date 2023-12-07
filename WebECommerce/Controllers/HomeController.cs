@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using WebECommerce.Entity;
 using WebECommerce.Models;
 
 namespace WebECommerce.Controllers
@@ -15,6 +16,17 @@ namespace WebECommerce.Controllers
 
         public IActionResult Index()
         {
+            try
+            {
+                if (UsuarioEntity.GetInstancia() != null)
+                {
+                    return View(UsuarioEntity.GetInstancia().ListaUsuario);
+                }
+
+            }
+            catch (Exception)
+            {
+            }
             return View();
         }
 

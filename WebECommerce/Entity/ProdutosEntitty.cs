@@ -7,5 +7,6 @@
         public decimal Preco { get; set; }
         public int Quantidade { get; set; }
         public int Desconto { get; set; }
+        public string Imagem { get; set; }
     }
 }
