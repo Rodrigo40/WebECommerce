@@ -48,6 +48,119 @@ namespace WebECommerce.Models
                         entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
                         entity.IdTipoPagamento = Convert.ToInt32(adapter["idTipoPagamento"].ToString());
                         entity.Total = Convert.ToDecimal(adapter["total"].ToString());
+                        entity.DataPagamento = adapter["dataPagamento"].ToString();
+                        ListaPagamento.Add(entity);
+                    }
+                    adapter.Close();
+                }
+            }
+            catch (Exception)
+            {
+                con = null;
+                cmd = null;
+            }
+            return ListaPagamento;
+        }
+        public List<RelatorioPagamentosEntity> ListarRelatorioPagamentos()
+        {
+            List<RelatorioPagamentosEntity> ListaPagamento = new List<RelatorioPagamentosEntity>();
+            ConexaoModel conex = new ConexaoModel();
+            //Instanciando a class de conexão do MySql
+            MySqlConnection con = new MySqlConnection();
+            //Instanciando a class de comando do MySql
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.StoredProcedure;
+                //Definindo o comando de consulta sql
+                cmd.CommandText = "ListarRelatorioPagamento"; // Consulta Sql
+                //cmd.CommandText = "Login";
+                //cmd.Parameters.AddWithValue("email",user.Email);
+                //cmd.Parameters.AddWithValue("password",user.Password);
+                //Definindo o objeto MySqlDataReader para executar o comando
+                //E Ler a resposta ou seja: trará a resposta do comando
+                MySqlDataReader adapter = cmd.ExecuteReader();
+
+                //Verifinado se exitem linhas na resposta do comando
+                if (adapter.HasRows)
+                {
+                    while (adapter.Read())
+                    {
+                        RelatorioPagamentosEntity entity = new RelatorioPagamentosEntity();
+                        entity.Cliente = adapter["cliente"].ToString();
+                        entity.Produto = adapter["produto"].ToString();
+                        entity.Preco = Convert.ToDecimal(adapter["preco"].ToString());
+                        entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
+                        entity.Imagem = adapter["imagem"].ToString();
+                        entity.Total = Convert.ToDecimal(adapter["total"].ToString());
+                        entity.DataPagamento = adapter["dataPagamento"].ToString();
+                        entity.TipoPagamento = adapter["tipoPagamento"].ToString();
+                        entity.CodigoProduto = Convert.ToInt32(adapter["id"].ToString());
+                        ListaPagamento.Add(entity);
+                    }
+                    adapter.Close();
+                }
+            }
+            catch (Exception)
+            {
+                con = null;
+                cmd = null;
+            }
+            return ListaPagamento;
+        }
+        public List<RelatorioPagamentosEntity> ListarRelatorioPagamentosByData(RelatorioPagamentosEntity relatorio)
+        {
+            List<RelatorioPagamentosEntity> ListaPagamento = new List<RelatorioPagamentosEntity>();
+            ConexaoModel conex = new ConexaoModel();
+            //Instanciando a class de conexão do MySql
+            MySqlConnection con = new MySqlConnection();
+            //Instanciando a class de comando do MySql
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.StoredProcedure;
+                //Definindo o comando de consulta sql
+                cmd.CommandText = "ListarRelatorioPagamentoByData"; // Consulta Sql
+                cmd.Parameters.AddWithValue("dataPagamento", relatorio.DataPagamento);
+                //cmd.Parameters.AddWithValue("email",user.Email);
+                //cmd.Parameters.AddWithValue("password",user.Password);
+                //Definindo o objeto MySqlDataReader para executar o comando
+                //E Ler a resposta ou seja: trará a resposta do comando
+                MySqlDataReader adapter = cmd.ExecuteReader();
+
+                //Verifinado se exitem linhas na resposta do comando
+                if (adapter.HasRows)
+                {
+                    while (adapter.Read())
+                    {
+                        RelatorioPagamentosEntity entity = new RelatorioPagamentosEntity();
+                        entity.Cliente = adapter["cliente"].ToString();
+                        entity.Produto = adapter["produto"].ToString();
+                        entity.Preco = Convert.ToDecimal(adapter["preco"].ToString());
+                        entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
+                        entity.Imagem = adapter["imagem"].ToString();
+                        entity.Total = Convert.ToDecimal(adapter["total"].ToString());
+                        entity.DataPagamento = adapter["dataPagamento"].ToString();
+                        entity.TipoPagamento = adapter["tipoPagamento"].ToString();
+                        entity.CodigoProduto = Convert.ToInt32(adapter["id"].ToString());
                         ListaPagamento.Add(entity);
                     }
                     adapter.Close();
@@ -102,6 +215,62 @@ namespace WebECommerce.Models
                         entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
                         entity.IdTipoPagamento = Convert.ToInt32(adapter["idTipoPagamento"].ToString());
                         entity.Total = Convert.ToDecimal(adapter["total"].ToString());
+                        entity.DataPagamento = adapter["dataPagamento"].ToString();
+                        ListaPagamento.Add(entity);
+                    }
+                    adapter.Close();
+                }
+            }
+            catch (Exception)
+            {
+                con = null;
+                cmd = null;
+            }
+            return ListaPagamento;
+        }
+        public List<PagamentosEntity> PesquisarPagamentoByDataPagamento(PagamentosEntity pagamento)
+        {
+            List<PagamentosEntity> ListaPagamento = new List<PagamentosEntity>();
+            ConexaoModel conex = new ConexaoModel();
+            //Instanciando a class de conexão do MySql
+            MySqlConnection con = new MySqlConnection();
+            //Instanciando a class de comando do MySql
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.StoredProcedure;
+                //Definindo o comando de consulta sql
+                cmd.CommandText = "listarPagamentoByData"; // Consulta Sql
+                cmd.Parameters.AddWithValue("dataPagamento", pagamento.DataPagamento);
+                //cmd.Parameters.AddWithValue("email",user.Email);
+                //cmd.Parameters.AddWithValue("password",user.Password);
+                //Definindo o objeto MySqlDataReader para executar o comando
+                //E Ler a resposta ou seja: trará a resposta do comando
+                MySqlDataReader adapter = cmd.ExecuteReader();
+
+                //Verifinado se exitem linhas na resposta do comando
+                if (adapter.HasRows)
+                {
+                    while (adapter.Read())
+                    {
+                        PagamentosEntity entity = new PagamentosEntity();
+                        entity.Id = Convert.ToInt32(adapter["id"].ToString());
+                        entity.IdProduto = Convert.ToInt32(adapter["idProduto"].ToString());
+                        entity.IdCliente = Convert.ToInt32(adapter["idClinte"].ToString());
+                        entity.Preco = Convert.ToDecimal(adapter["preco"].ToString());
+                        entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
+                        entity.IdTipoPagamento = Convert.ToInt32(adapter["idTipoPagamento"].ToString());
+                        entity.Total = Convert.ToDecimal(adapter["total"].ToString());
+                        entity.DataPagamento = adapter["dataPagamento"].ToString();
                         ListaPagamento.Add(entity);
                     }
                     adapter.Close();

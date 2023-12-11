@@ -59,7 +59,7 @@ namespace WebECommerce.Models
                         entity.Preco = Convert.ToDecimal(adapter["preco"].ToString());
                         entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
                         entity.Desconto = Convert.ToInt32(adapter["desconto"].ToString());
-                        entity.Imagem = adapter["iamgem"].ToString();
+                        entity.Imagem = adapter["imagem"].ToString();
                         ListaProdutos.Add(entity);
                     }
                     adapter.Close();
@@ -72,7 +72,7 @@ namespace WebECommerce.Models
             }
             return ListaProdutos;
         }
-        public List<ProdutosEntity> ListarProdutosById(ProdutosEntity produto)
+        public List<ProdutosEntity> PesquisarProdutos(ProdutosEntity produto)
         {
             List<ProdutosEntity> ListaProdutos = new List<ProdutosEntity>();
             ConexaoModel conex = new ConexaoModel();
@@ -93,8 +93,8 @@ namespace WebECommerce.Models
                 //Definindo o tipo de comando a usar
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "listarProdutoById"; // Consulta Sql
-                cmd.Parameters.AddWithValue("id",produto.Id);
+                cmd.CommandText = "pesquisarProduto"; // Consulta Sql
+                cmd.Parameters.AddWithValue("nome",produto.Nome); // Consulta Sql
                 //cmd.CommandText = "Login";
                 //cmd.Parameters.AddWithValue("email",user.Email);
                 //cmd.Parameters.AddWithValue("password",user.Password);
@@ -114,6 +114,59 @@ namespace WebECommerce.Models
                         entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
                         entity.Desconto = Convert.ToInt32(adapter["desconto"].ToString());
                         entity.Imagem = adapter["iamgem"].ToString();
+                        ListaProdutos.Add(entity);
+                    }
+                    adapter.Close();
+                }
+            }
+            catch (Exception)
+            {
+                con = null;
+                cmd = null;
+            }
+            return ListaProdutos;
+        }
+        public List<ProdutosEntity> ListarProdutosById(int id)
+        {
+            List<ProdutosEntity> ListaProdutos = new List<ProdutosEntity>();
+            ConexaoModel conex = new ConexaoModel();
+            //Instanciando a class de conexão do MySql
+            MySqlConnection con = new MySqlConnection();
+            //Instanciando a class de comando do MySql
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.Text;
+                //Definindo o comando de consulta sql
+                cmd.CommandText = $"SELECT * FROM produto where id='{id}';"; // Consulta Sql
+                //cmd.CommandText = "Login";
+                //cmd.Parameters.AddWithValue("email",user.Email);
+                //cmd.Parameters.AddWithValue("password",user.Password);
+                //Definindo o objeto MySqlDataReader para executar o comando
+                //E Ler a resposta ou seja: trará a resposta do comando
+                MySqlDataReader adapter = cmd.ExecuteReader();
+
+                //Verifinado se exitem linhas na resposta do comando
+                if (adapter.HasRows)
+                {
+                    while (adapter.Read())
+                    {
+                        ProdutosEntity entity = new ProdutosEntity();
+                        entity.Id = Convert.ToInt32(adapter["id"].ToString());
+                        entity.Nome = adapter["nome"].ToString();
+                        entity.Preco = Convert.ToDecimal(adapter["preco"].ToString());
+                        entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
+                        entity.Desconto = Convert.ToInt32(adapter["desconto"].ToString());
+                        entity.Imagem = adapter["imagem"].ToString();
                         ListaProdutos.Add(entity);
                     }
                     adapter.Close();

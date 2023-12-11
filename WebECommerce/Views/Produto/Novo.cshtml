@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Novo";
+}
+<br />
+<br />
+<br />
+<br />
+<div class="rounded d-flex justify-content-center">
+    <div class="col-md-4 col-sm-12 shadow-lg p-7 bg-light">
+        <div class="text-center">
+            <h3 class="text-primary">Registrar Produto</h3>
+        </div>
+        <form action="/Produto/Novo" method="post" enctype="multipart/form-data">
+
+            <div class="p-4">
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-primary">
+                        <i class="fa fa-circle-arrow-up text-white"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Nome do produto" name="produto" required="required" />
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-primary">
+                        <i class="fa fa-circle-arrow-up text-white"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Preço do produto" name="preco" required="required">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-primary">
+                        <i class="fa fa-circle-arrow-up text-white"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Quantidade" name="quantidade" required="required">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-primary">
+                        <i class="fa fa-circle-arrow-up text-white"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Desconto" name="desconto" required="required">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-primary">
+                        <i class="fa fa-circle-arrow-up text-white"></i>
+                    </span>
+                    <input type="file" class="form-control" placeholder="Imagem" name="imagem" required="required">
+                </div>
+                <div>
+                    <p class="erroInfo">@TempData["sms"]</p>
+                    <button type="submit" class="btn btn-primary">Finalizar</button>
+                    <a class="btn btn-danger">Cancelar</a>
+                </div>
+            </div>
+            </form>
+    </div>
+</div>
+

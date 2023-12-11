@@ -9,5 +9,6 @@
         public decimal Preco { get; set; }
         public int Quantidade { get; set; }
         public decimal Total { get; set; }
+        public string DataPagamento { get; set; }
     }
 }

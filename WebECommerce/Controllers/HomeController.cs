@@ -18,9 +18,11 @@ namespace WebECommerce.Controllers
         {
             try
             {
-                if (UsuarioEntity.GetInstancia() != null)
+                var produtos = new ProdutosModel();
+                var lista = produtos.ListarProdutos();
+                if (lista.Count != 0)
                 {
-                    return View(UsuarioEntity.GetInstancia().ListaUsuario);
+                    return View(produtos);
                 }
 
             }
