@@ -57,13 +57,23 @@ namespace WebECommerce.Controllers
             }
             return novoNomeImagem;
         }
-        public IActionResult Detalhes(int id)
+        public IActionResult Detalhes(int id,string tipo)
         {
-            if (id != 0)
+            //string idTipo = Request.Form;
+            if (!string.IsNullOrEmpty(WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome))
             {
-                ViewBag.id = id;
+                if (id != 0)
+                {
+                    ViewBag.id = id;
+                }
             }
-            return View();
+            else
+            {
+                return RedirectToAction("Login","Usuario");
+            }
+
+            var tipoModel = new TipoPagamentoModel();
+            return View(tipoModel);
         }
     }
 }
