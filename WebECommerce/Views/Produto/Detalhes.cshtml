@@ -37,46 +37,46 @@
                                                 <a>Produto: @WebECommerce.Models.ProdutosModel.GetInstacia().ListarProdutosById(prodId)[0].Nome</a>
                                             </h3>
                                         </div>
-                                        <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
-                                            <h3 class="card-title text-uppercase">
-                                                <a>Preco: @WebECommerce.Models.ProdutosModel.GetInstacia().ListarProdutosById(prodId)[0].Preco.ToString("N2",CultureInfo.CurrentCulture)</a>
-                                            </h3>
-                                        </div>
-                                        <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
-                                            <h3 class="card-title text-uppercase">
-                                                <a>Quantidade: <input type="number" value="0" style="width:100px;height:30px" /></a>
-                                            </h3>
-                                        </div>
-                                        <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
-                                            <h3 class="card-title text-uppercase">
-                                                <a>Desconto: @WebECommerce.Models.ProdutosModel.GetInstacia().ListarProdutosById(prodId)[0].Desconto</a>
-                                            </h3>
-                                        </div>
-                                        <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
-                                            <h3 class="card-title text-uppercase">
-                                                <a>Tipo de Pagamento: </a>
-                                                <form method="post">
-                                                    <select class="form-control">
+                                        <form method="post" id="formulario">
+
+                                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                                <h3 class="card-title text-uppercase">
+                                                    <a>Preco: @WebECommerce.Models.ProdutosModel.GetInstacia().ListarProdutosById(prodId)[0].Preco.ToString("N2",CultureInfo.CurrentCulture)</a>
+                                                    <input type="text" hidden="hidden" name="preco" value="@item.Preco"/>
+                                                </h3>
+                                            </div>
+                                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                                <h3 class="card-title text-uppercase">
+                                                    <a>Desconto: @WebECommerce.Models.ProdutosModel.GetInstacia().ListarProdutosById(prodId)[0].Desconto</a>
+                                                    <input type="text" hidden="hidden" name="desconto" value="@item.Desconto" />
+                                                </h3>
+                                            </div>
+                                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                                <h3 class="card-title text-uppercase">
+                                                    <a>Tipo de Pagamento: </a>
+                                                    <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                                        <h3 class="card-title text-uppercase" style="font-size:20px">
+                                                            <a>Quantidade: <input type="number" name="quantidade" value="0" style="width:100px;height:30px" /></a>
+                                                        </h3>
+                                                    </div>
+                                                    <select class="form-control" name="Tipo">
+                                                        <option value="0">Selecione o tipo de pagamento</option>
                                                         @foreach (var tipo in Model.ListarTipoPagamento())
                                                         {
-                                                            <option name="tipo" itemid="@tipo.Id">@tipo.Tipo</option>
+                                                            <option value="@tipo.Id" itemid="@tipo.Id">@tipo.Tipo</option>
                                                         }
                                                     </select>
-                                                    <br/>
-                                                    <br/>
-                                                    <button type="submit" class="btn btn-info">Finalizar</button>
-                                                </form>
-                                            </h3>
-                                        </div>
-                                        <div class="cart-concern position-absolute">
-                                            <div class="cart-button d-flex">
-                                                <a asp-area="" asp-controller="Produto" asp-action="Detalhes" asp-route-id="@item.Id" class="btn btn-medium btn-black">Comprar<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                                    <br />
+                                                    <br />
+                                                    <!--<button type="submit" class="btn btn-medium btn-black">Finalizar</button>-->
+                                                    <button type="submit" class="form-group btn btn-primary">Finalizar</button>
+                                                    <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-danger">Cancelar</a>
+                                                </h3>
                                             </div>
-                                        </div>
-                                        <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
-                                            <h3 class="card-title text-uppercase">
-                                                <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-danger">Cancelar</a>
-                                            </h3>
+                                        </form>
+                                        <div id="info" hidden="hidden">
+                                            <h2>Este produto foi cadastrado por você!</h2>
+                                            <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-danger">Voltar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -90,3 +90,18 @@
     </div>
     <div class="swiper-pagination position-absolute text-center"></div>
 </section>
+@section scripts{
+    <script type="text/javascript">
+        var formulario = document.getElementById("formulario");
+        var info = document.getElementById("info");
+
+        if (@WebECommerce.Entity.UsuarioEntity.GetInstancia().IdTipo != 2) {
+            formulario.hidden = true;
+            info.hidden = false;
+            alert('Este produto foi cadastrado por você!');
+        }
+        else {
+            info.hidden = true;
+        }
+    </script>
+}

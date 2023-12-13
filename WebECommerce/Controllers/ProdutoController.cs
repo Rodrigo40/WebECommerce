@@ -57,19 +57,43 @@ namespace WebECommerce.Controllers
             }
             return novoNomeImagem;
         }
-        public IActionResult Detalhes(int id,string tipo)
+        public IActionResult Detalhes(int id, int quantidade, int tipo, string preco,string desconto)
         {
-            //string idTipo = Request.Form;
+            //string pt = Request.QueryString[""].ToString();
+            //string pt = Request["tipo"];
             if (!string.IsNullOrEmpty(WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome))
             {
                 if (id != 0)
                 {
                     ViewBag.id = id;
+                    if (quantidade != 0 && tipo != 0 && WebECommerce.Entity.UsuarioEntity.GetInstancia().IdTipo == 2)
+                    {
+                        var Cliente = new ClienteModel(id);
+                        var IdCliente = Cliente.ListaClienteById[0].Id;
+                        var pagamento = new PagamentosModel();
+
+                        var pagamentoEntity = new PagamentosEntity();
+                        pagamentoEntity.DataPagamento = DateTime.Now.ToShortDateString();
+                        pagamentoEntity.IdTipoPagamento = tipo;
+                        pagamentoEntity.IdProduto = id;
+                        pagamentoEntity.IdCliente = WebECommerce.Entity.UsuarioEntity.GetInstancia().Id;
+
+                        decimal precoProduto = Convert.ToDecimal(preco);
+                        decimal descontoProduto = Convert.ToDecimal(desconto);
+
+                        pagamentoEntity.Preco = precoProduto;
+                        pagamentoEntity.Quantidade = quantidade;
+                        pagamentoEntity.Total = precoProduto * quantidade- descontoProduto;
+                        
+                        TempData["sms"] = pagamento.Novo(pagamentoEntity);
+
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             else
             {
-                return RedirectToAction("Login","Usuario");
+                return RedirectToAction("Login", "Usuario");
             }
 
             var tipoModel = new TipoPagamentoModel();

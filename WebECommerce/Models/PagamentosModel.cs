@@ -312,6 +312,7 @@ namespace WebECommerce.Models
                 cmd.Parameters.AddWithValue("quantidade", pagamento.Quantidade);
                 cmd.Parameters.AddWithValue("total", pagamento.Total);
                 cmd.Parameters.AddWithValue("idTipoPagamento", pagamento.IdTipoPagamento);
+                cmd.Parameters.AddWithValue("dataPagamento", pagamento.DataPagamento);
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
