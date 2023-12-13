@@ -102,5 +102,9 @@ namespace WebECommerce.Controllers
             var tipoModel = new TipoPagamentoModel();
             return View(tipoModel);
         }
+        public IActionResult Vendidos()
+        {
+            return View();
+        }
     }
 }

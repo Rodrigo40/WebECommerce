@@ -61,7 +61,7 @@ namespace WebECommerce.Models
             }
             return ListaPagamento;
         }
-        public List<RelatorioPagamentosEntity> ListarRelatorioPagamentos()
+        public static List<RelatorioPagamentosEntity> ListarRelatorioPagamentos()
         {
             List<RelatorioPagamentosEntity> ListaPagamento = new List<RelatorioPagamentosEntity>();
             ConexaoModel conex = new ConexaoModel();

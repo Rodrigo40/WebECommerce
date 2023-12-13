@@ -159,7 +159,7 @@
                                 <a class="nav-link me-4" href="#mobile-products">Produtos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-4" href="#yearly-sale">Vendas</a>
+                                <a class="nav-link me-4" asp-area="" asp-controller="Produto" asp-action="Vendidos">Produtos vendidos</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Pages</a>
@@ -198,6 +198,9 @@
                                                         @WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome
                                                     }
                                                 </a>
+                                            </li>
+                                            <li class="pe-3">
+                                                <a asp-area="" asp-controller="Usuario" asp-action="Perfil">Perfil</a>
                                             </li>
                                         }
                                         else
