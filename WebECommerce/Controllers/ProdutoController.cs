@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebECommerce.Entity;
 using WebECommerce.Models;
 
 namespace WebECommerce.Controllers
 {
+    [Authorize(AuthenticationSchemes = "CookieAuthentication")]
+
     public class ProdutoController : Controller
     {
         private string caminhoServidor;
@@ -83,7 +86,7 @@ namespace WebECommerce.Controllers
 
                         pagamentoEntity.Preco = precoProduto;
                         pagamentoEntity.Quantidade = quantidade;
-                        pagamentoEntity.Total = precoProduto * quantidade- descontoProduto;
+                        pagamentoEntity.Total = precoProduto * quantidade - descontoProduto;
                         
                         TempData["sms"] = pagamento.Novo(pagamentoEntity);
 

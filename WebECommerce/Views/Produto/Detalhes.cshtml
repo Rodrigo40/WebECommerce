@@ -63,7 +63,7 @@
                                                         <option value="0">Selecione o tipo de pagamento</option>
                                                         @foreach (var tipo in Model.ListarTipoPagamento())
                                                         {
-                                                            <option value="@tipo.Id" itemid="@tipo.Id">@tipo.Tipo</option>
+                                                            <option value="@tipo.Id">@tipo.Tipo</option>
                                                         }
                                                     </select>
                                                     <br />

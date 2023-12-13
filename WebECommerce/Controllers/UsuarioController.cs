@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security.Claims;
 using WebECommerce.Entity;
 using WebECommerce.Models;
 
@@ -15,7 +18,7 @@ namespace WebECommerce.Controllers
             caminhoServidor = environment.WebRootPath;
         }
 
-        public IActionResult Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
             try
             {
@@ -39,6 +42,18 @@ namespace WebECommerce.Controllers
 
                         if (UsuarioEntity.GetInstancia().Nome != string.Empty)
                         {
+                            var clain = new List<Claim>();
+
+                            clain.Add(new Claim(ClaimTypes.Name, resposta[0].Nome));
+                            clain.Add(new Claim(ClaimTypes.Sid, resposta[0].Id.ToString()));
+
+                            var userIdentity = new ClaimsIdentity(clain, "Acesso");
+                            ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+
+                            await HttpContext.SignInAsync("CookieAuthentication",
+                            principal, new AuthenticationProperties());
+                           
+
                             return RedirectToAction("Index", "Home");
                         }
                     }
@@ -55,13 +70,14 @@ namespace WebECommerce.Controllers
             }
             return View();
         }
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             UsuarioEntity.GetInstancia().Id = 0;
             UsuarioEntity.GetInstancia().IdTipo = 0;
             UsuarioEntity.GetInstancia().Nome = string.Empty;
             UsuarioEntity.GetInstancia().Email = string.Empty;
 
+            await HttpContext.SignOutAsync("CookieAuthentication");
             return RedirectToAction("Index", "Home");
         }
         public IActionResult Novo(string nome, string email, string password, string idTipo)
