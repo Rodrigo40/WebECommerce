@@ -245,16 +245,9 @@ namespace WebECommerce.Models
                 //Conectando o comando com a conexão
                 cmd.Connection = con;
                 //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "editarProduto"; // Consulta Sql
-
-                cmd.Parameters.AddWithValue("id", produto.Id);
-                cmd.Parameters.AddWithValue("nome", produto.Nome);
-                cmd.Parameters.AddWithValue("preco", produto.Preco);
-                cmd.Parameters.AddWithValue("quantidade", produto.Quantidade);
-                cmd.Parameters.AddWithValue("desconto", produto.Desconto);
-                cmd.Parameters.AddWithValue("imagem", produto.Imagem);
+                cmd.CommandText = $"UPDATE produto set nome='{produto.Nome}',preco='{produto.Preco}',quantidade='{produto.Quantidade}',desconto='{produto.Desconto}',imagem='{produto.Imagem}' where id='{produto.Id}';"; // Consulta Sql
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {

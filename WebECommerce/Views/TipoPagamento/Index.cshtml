@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Lista";
+}
+@model TipoPagamentoModel
+<br />
+<br />
+<br />
+<br />
+<div class="rounded d-flex justify-content-center">
+    <div class="col-md-4 col-sm-12 shadow-lg p-7 bg-light">
+        <div class="text-center">
+            <h3 class="text-primary">Tipo Pagamentos</h3>
+            <small style="font-size:18px">
+                <a asp-area="" asp-controller="TipoPagamento" asp-action="Novo">Adicionar Tipo</a>
+            </small>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Descricão</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var tipo in WebECommerce.Models.TipoPagamentoModel.GetInstacia().ListarTipoPagamento())
+            {
+                <tr>
+                    <td>@tipo.Tipo</td>
+                    <td>@tipo.Descricao</td>
+                    <td>
+                        <a class="btn btn-info" asp-area="" asp-controller="TipoPagamento" asp-action="Editar" asp-route-id="@tipo.Id">Editar</a>
+                        <a class="btn btn-danger" asp-area="" asp-controller="TipoPagamento" asp-action="Eliminar" asp-route-id="@tipo.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

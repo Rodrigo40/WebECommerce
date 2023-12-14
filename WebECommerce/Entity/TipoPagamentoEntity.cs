@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string Tipo { get; set; }
         public string Descricao { get; set; }
-        public int TipoEntitity { get; set; }
+        public List<TipoPagamentoEntity>ListaTipo { get; set; }
     }
 }

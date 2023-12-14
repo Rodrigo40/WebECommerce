@@ -99,43 +99,11 @@ namespace WebECommerce.Controllers
             var tipoPagamento = new TipoPagamentoModel();
             return View(tipoPagamento);
         }
-        public IActionResult Editar(int id, string produto, string preco, string quantidade, string desconto, IFormFile imagem)
+        public IActionResult Editar(int id)
         {
-
+            var produtos = new ProdutosModel();
             ViewBag.id = id;
-            if (!string.IsNullOrEmpty(produto) && !string.IsNullOrEmpty(preco) && !string.IsNullOrEmpty(quantidade) && !string.IsNullOrEmpty(desconto) && id != 0)
-            {
-                Mensagens.GetInstancia().Mensagem = string.Empty;
-
-                var produtos = new ProdutosModel();
-                var entidate = new ProdutosEntity();
-
-
-                entidate.Id = id;
-                entidate.Nome = produto;
-                entidate.Preco = Convert.ToDecimal(preco);
-                entidate.Quantidade = Convert.ToInt32(quantidade);
-                entidate.Desconto = Convert.ToInt32(desconto);
-
-                if (imagem != null)
-                {
-                    var img = Upload(imagem);
-                    entidate.Imagem = img;
-                }
-                else
-                {
-                    var prod = new ProdutosModel();
-                    var prodId = prod.ListarProdutosById(id);
-                    entidate.Imagem = prodId[0].Imagem;
-                }
-                TempData["sms"] = produtos.Editar(entidate);
-                Mensagens.GetInstancia().Mensagem = TempData["sms"].ToString();
-            }
-            else
-            {
-                return View("Editar", produto);
-            }
-            return View("Lista", produto);
+            return View("Editar", produtos);
         }
         public IActionResult Eliminar(int id)
         {
@@ -179,6 +147,41 @@ namespace WebECommerce.Controllers
                 foto.CopyToAsync(stream);
             }
             return novoNomeImagem;
+        }
+        public IActionResult Salvar(string id,string produto, string preco, string quantidade, string desconto, IFormFile imagem)
+        {
+            var produtos = new ProdutosModel();
+            var entidate = new ProdutosEntity();
+            int idProduto= Convert.ToInt32(id);
+            if (!string.IsNullOrEmpty(produto) && !string.IsNullOrEmpty(preco) && !string.IsNullOrEmpty(quantidade) && !string.IsNullOrEmpty(desconto) && idProduto != 0)
+            {
+                Mensagens.GetInstancia().Mensagem = string.Empty;
+
+                entidate.Id = idProduto;
+                entidate.Nome = produto;
+                entidate.Preco = Convert.ToDecimal(preco);
+                entidate.Quantidade = Convert.ToInt32(quantidade);
+                entidate.Desconto = Convert.ToInt32(desconto);
+
+                if (imagem != null)
+                {
+                    var img = Upload(imagem);
+                    entidate.Imagem = img;
+                }
+                else
+                {
+                    var prod = new ProdutosModel();
+                    var prodId = prod.ListarProdutosById(idProduto);
+                    entidate.Imagem = prodId[0].Imagem;
+                }
+                TempData["sms"] = produtos.Editar(entidate);
+                Mensagens.GetInstancia().Mensagem = TempData["sms"].ToString();
+            }
+            else
+            {
+                return View("Editar", produtos);
+            }
+            return RedirectToAction("Lista");
         }
     }
 }
