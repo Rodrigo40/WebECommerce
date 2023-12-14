@@ -47,11 +47,12 @@ namespace WebECommerce.Controllers
         }
         public IActionResult Editar(int id)
         {
+            ViewBag.id = id;
             var Tipo = new TipoPagamentoModel();
             var TipoEnty = new TipoPagamentoEntity();
 
             TipoEnty.ListaTipo = Tipo.ListarTipoPagamentoById(id);
-            return View(TipoEnty);
+            return View(Tipo);
         }
         public IActionResult Eliminar(int id)
         {
@@ -60,7 +61,7 @@ namespace WebECommerce.Controllers
 
             tipoEnty.Id = id;
 
-            //TempData["sms"] = tipo.Eliminar(tipoEnty);
+            TempData["sms"] = tipo.Eliminar(tipoEnty);
             return View("Index");
         }
     }

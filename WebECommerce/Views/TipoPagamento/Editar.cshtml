@@ -7,7 +7,7 @@
 <br />
 <br />
 <br />
-@model TipoPagamentoEntity
+@model TipoPagamentoModel
 <div class="rounded d-flex justify-content-center">
     <div class="col-md-4 col-sm-12 shadow-lg p-7 bg-light">
         <div class="text-center">
@@ -15,25 +15,29 @@
         </div>
         <form action="/TipoPagamento/Salvar" method="post">
             @{
-                <div class="p-4">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-primary">
-                            <i class="fa fa-circle-arrow-up text-white"></i>
-                        </span>
-                        <input type="text" class="form-control" placeholder="Nome do produto" name="tipo" required="required" value="@Model.ListaTipo[0].Tipo" />
+                var id = ViewBag.id;
+                foreach (var item in Model.ListarTipoPagamentoById(id))
+                {
+                    <div class="p-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-circle-arrow-up text-white"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Nome do tipo" name="tipo" required="required" value="@item.Tipo" />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-circle-arrow-up text-white"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Descrição do tipo" name="descricao" required="required" value="@item.Descricao">
+                            <input type="text" hidden="hidden" class="form-control" name="id" required="required" value="@item.Id">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Finalizar</button>
+                            <a asp-area="" asp-controller="TipoPagamento" asp-action="Index" class="btn btn-danger">Cancelar</a>
+                        </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-primary">
-                            <i class="fa fa-circle-arrow-up text-white"></i>
-                        </span>
-                        <input type="text" class="form-control" placeholder="Preço do produto" name="descricao" required="required" value="@Model.ListaTipo[0].Descricao">
-                        <input type="text" hidden="hidden" class="form-control" name="id" required="required" value="@Model.ListaTipo[0].Id">
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-primary">Finalizar</button>
-                        <a asp-area="" asp-controller="TipoPagamento" asp-action="Index" class="btn btn-danger">Cancelar</a>
-                    </div>
-                </div>
+                }
             }
         </form>
     </div>

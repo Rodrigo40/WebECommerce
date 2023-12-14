@@ -138,10 +138,9 @@ namespace WebECommerce.Models
                 //Conectando o comando com a conexão
                 cmd.Connection = con;
                 //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "listarTipoPagamentoById"; // Consulta Sql
-                cmd.Parameters.AddWithValue("id", tipo);
+                cmd.CommandText = $"SELECT * from tipopagamento where id='{tipo}';"; // Consulta Sql
                 //cmd.Parameters.AddWithValue("email",user.Email);
                 //cmd.Parameters.AddWithValue("password",user.Password);
                 //Definindo o objeto MySqlDataReader para executar o comando
@@ -265,11 +264,9 @@ namespace WebECommerce.Models
                 //Conectando o comando com a conexão
                 cmd.Connection = con;
                 //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "eliminarTipoPagamento"; // Consulta Sql
-
-                cmd.Parameters.AddWithValue("id", tipo.Id);
+                cmd.CommandText = $"delete from tipopagamento where id='{tipo.Id}'"; // Consulta Sql
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
