@@ -175,10 +175,10 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `novoProduto`(IN `nome` VARCHAR(50), IN `preco` DECIMAL, IN `quantidade` INT, IN `desconto` INT, IN `imagem` VARCHAR(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `novoProduto`(IN `nome` VARCHAR(50), IN `preco` DECIMAL, IN `quantidade` INT, IN `desconto` INT, IN `imagem` VARCHAR(100), IN `dataCadastro` VARCHAR(20))
 BEGIN
- INSERT produto(nome,preco,quantidade,desconto,imagem)
- values(nome,preco,quantidade,desconto,imagem);
+ INSERT produto(nome,preco,quantidade,desconto,imagem,dataCadastro)
+ values(nome,preco,quantidade,desconto,imagem,dataCadastro);
 END$$
 DELIMITER ;
 
