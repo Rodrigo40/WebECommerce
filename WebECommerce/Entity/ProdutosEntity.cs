@@ -8,5 +8,6 @@
         public int Quantidade { get; set; }
         public int Desconto { get; set; }
         public string Imagem { get; set; }
+        public string DataCadastro { get; set; }
     }
 }

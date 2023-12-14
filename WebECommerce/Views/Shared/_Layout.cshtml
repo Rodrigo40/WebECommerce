@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebECommerce</title>
+    <title>@ViewData["Title"] - Mini E-Commerce</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/EstiloPrincipal.css" asp-append-version="true" />
@@ -138,7 +138,7 @@
                     <div class="offcanvas-body">
                         <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link me-4 active" href="#billboard">Principal</a>
+                                <a class="nav-link me-4 active" asp-area="" asp-controller="Home" asp-action="Index">Principal</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Registrar</a>
@@ -182,20 +182,20 @@
                                                 </svg>
                                             </a>
                                         </li>
-                                        @if (!string.IsNullOrEmpty(WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome))
+                                        @if (User.Identity.IsAuthenticated)
                                         {
                                             <li class="pe-3">
                                                 <a asp-area="" asp-controller="Usuario" asp-action="Logout" title="Finalizar sessão">
                                                     <svg class="user">
                                                         <use xlink:href="#user"></use>
                                                     </svg>
-                                                    @if (WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome.Length == 13)
+                                                    @if (User.Identity.Name.Length == 13)
                                                     {
-                                                        @WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome.Substring(0,13)
+                                                        @User.Identity.Name.Substring(0,13);
                                                     }
                                                     else
                                                     {
-                                                        @WebECommerce.Entity.UsuarioEntity.GetInstancia().Nome
+                                                        @User.Identity.Name;                                                  
                                                     }
                                                 </a>
                                             </li>

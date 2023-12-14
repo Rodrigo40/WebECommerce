@@ -11,7 +11,7 @@ namespace WebECommerce.Models
         public ProdutosModel() { }
         public static ProdutosModel GetInstacia()
         {
-            if ( Instancia == null )
+            if (Instancia == null)
             {
                 Instancia = new ProdutosModel();
             }
@@ -60,6 +60,7 @@ namespace WebECommerce.Models
                         entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
                         entity.Desconto = Convert.ToInt32(adapter["desconto"].ToString());
                         entity.Imagem = adapter["imagem"].ToString();
+                        entity.DataCadastro = adapter["dataCadastro"].ToString();
                         ListaProdutos.Add(entity);
                     }
                     adapter.Close();
@@ -94,7 +95,7 @@ namespace WebECommerce.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 //Definindo o comando de consulta sql
                 cmd.CommandText = "pesquisarProduto"; // Consulta Sql
-                cmd.Parameters.AddWithValue("nome",produto.Nome); // Consulta Sql
+                cmd.Parameters.AddWithValue("nome", produto.Nome); // Consulta Sql
                 //cmd.CommandText = "Login";
                 //cmd.Parameters.AddWithValue("email",user.Email);
                 //cmd.Parameters.AddWithValue("password",user.Password);
@@ -114,6 +115,7 @@ namespace WebECommerce.Models
                         entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
                         entity.Desconto = Convert.ToInt32(adapter["desconto"].ToString());
                         entity.Imagem = adapter["iamgem"].ToString();
+                        entity.DataCadastro = adapter["dataCadastro"].ToString();
                         ListaProdutos.Add(entity);
                     }
                     adapter.Close();
@@ -167,6 +169,7 @@ namespace WebECommerce.Models
                         entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
                         entity.Desconto = Convert.ToInt32(adapter["desconto"].ToString());
                         entity.Imagem = adapter["imagem"].ToString();
+                        entity.DataCadastro = adapter["dataCadastro"].ToString();
                         ListaProdutos.Add(entity);
                     }
                     adapter.Close();
@@ -207,6 +210,7 @@ namespace WebECommerce.Models
                 cmd.Parameters.AddWithValue("quantidade", produto.Quantidade);
                 cmd.Parameters.AddWithValue("desconto", produto.Desconto);
                 cmd.Parameters.AddWithValue("imagem", produto.Imagem);
+                cmd.Parameters.AddWithValue("dataCadastro", produto.DataCadastro);
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
@@ -285,11 +289,9 @@ namespace WebECommerce.Models
                 //Conectando o comando com a conexão
                 cmd.Connection = con;
                 //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "eliminarProduto"; // Consulta Sql
-
-                cmd.Parameters.AddWithValue("id", produto.Id);
+                cmd.CommandText = $"delete from produto where id='{produto.Id}';"; // Consulta Sql
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
@@ -297,6 +299,47 @@ namespace WebECommerce.Models
                 }
                 else
                     resposta = "Erro: Produto não eliminado!";
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return resposta;
+        }
+        public string VerificarSeJaFoiVendido(int Idproduto)
+        {
+            // Instanciando a class de conexão string
+            ConexaoModel conex = new ConexaoModel();
+            string resposta = string.Empty;
+            try
+            {
+                //Instanciando a class de conexão do MySql
+                MySqlConnection con = new MySqlConnection();
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Instanciando a class de comando do MySql
+                MySqlCommand cmd = new MySqlCommand();
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.Text;
+                //Definindo o comando de consulta sql
+                cmd.CommandText = $"SELECT * from pagamentos p INNER JOIN produto pt on pt.id=p.idProduto where pt.id={Idproduto}"; // Consulta Sql
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.HasRows)
+                {
+                    resposta = "Não é possivél eliminar um produto que já foi vendido!";
+                }
+                else
+                {
+                    resposta = "ok";
+                }
             }
             catch (Exception)
             {

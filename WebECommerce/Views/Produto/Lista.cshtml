@@ -1,0 +1,58 @@
+﻿@using System.Globalization;
+@using WebECommerce.Entity;
+@{
+    ViewData["Title"] = "Lista";
+}
+<br />
+<br />
+<br />
+<br />
+@model TipoPagamentoModel
+
+<section class="section-products">
+    <div class="container" style="padding:40px">
+        <div class="row justify-content-center text-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="header">
+                    <h2>Lista de Produtos</h2>
+                </div>
+                @{
+                    if (Mensagens.GetInstancia().Mensagem == "Não é possivél eliminar um produto que já foi vendido!")
+                    {
+                        <div class="alert alert-danger" role="dialog" >
+                            <h2 style="font-size:17px">Não é possivél eliminar um produto que já foi vendido!</h2>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <!-- Listagem de Produtos -->
+            @foreach (var pg in WebECommerce.Models.ProdutosModel.GetInstacia().ListarProdutos())
+            {
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div id="product-1" class="single-product">
+                        <div class="part-1">
+                            <img src="~/imagens/@pg.Imagem" style="width:250px; height:200px" />
+                        </div>
+                        <div class="part-2">
+                            <h3 class="product-title" style="font-size:15px">Código: PC00-(@pg.Id)</h3>
+                            <h3 class="product-title" style="font-size:15px">Produto: @pg.Nome</h3>
+                            <h4 class="product-old-price" style="font-size:15px;color:dodgerblue"><b>Preço: @pg.Preco.ToString("N2",CultureInfo.CurrentCulture) - AKZ</b></h4>
+                            <h4 class="product-price" style="font-size:15px">Quantidade: @pg.Quantidade</h4>
+                            <h4 class="product-price" style="font-size:15px">DataPagamento: @pg.DataCadastro</h4>
+                        </div>
+                        <div class="part-1">
+                            <a class="btn btn-info" asp-area="" asp-controller="Produto" asp-action="Editar" asp-route-id="@pg.Id">Editar</a>
+                            <a class="btn btn-danger" asp-area="" asp-controller="Produto" asp-action="Eliminar" asp-route-id="@pg.Id">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<br />
+<br />

@@ -11,6 +11,7 @@ namespace WebECommerce.Controllers
     public class ProdutoController : Controller
     {
         private string caminhoServidor;
+
         public ProdutoController(IWebHostEnvironment environment)
         {
             caminhoServidor = environment.WebRootPath;
@@ -31,6 +32,7 @@ namespace WebECommerce.Controllers
                 entidade.Desconto = Convert.ToInt32(desconto);
                 entidade.Desconto = Convert.ToInt32(desconto);
                 entidade.Imagem = img;
+                entidade.DataCadastro = DateTime.Now.ToShortDateString();
                 resposta = prod.Novo(entidade);
 
                 if (resposta == "Produto registrado com sucesso")
@@ -46,21 +48,7 @@ namespace WebECommerce.Controllers
             }
             return View();
         }
-        public string Upload(IFormFile foto)
-        {
-            string caminhoParaSalverImagem = $"{caminhoServidor}\\imagens\\";
-            string novoNomeImagem = Guid.NewGuid().ToString() + "_" + foto.FileName;
-            if (!Directory.Exists(caminhoParaSalverImagem))
-            {
-                Directory.CreateDirectory(caminhoParaSalverImagem);
-            }
-            using (var stream = System.IO.File.Create(caminhoParaSalverImagem + novoNomeImagem))
-            {
-                foto.CopyToAsync(stream);
-            }
-            return novoNomeImagem;
-        }
-        public IActionResult Detalhes(int id, int quantidade, int tipo, string preco,string desconto)
+        public IActionResult Detalhes(int id, int quantidade, int tipo, string preco, string desconto)
         {
             //string pt = Request.QueryString[""].ToString();
             //string pt = Request["tipo"];
@@ -87,7 +75,7 @@ namespace WebECommerce.Controllers
                         pagamentoEntity.Preco = precoProduto;
                         pagamentoEntity.Quantidade = quantidade;
                         pagamentoEntity.Total = precoProduto * quantidade - descontoProduto;
-                        
+
                         TempData["sms"] = pagamento.Novo(pagamentoEntity);
 
                         return RedirectToAction("Index", "Home");
@@ -105,6 +93,92 @@ namespace WebECommerce.Controllers
         public IActionResult Vendidos()
         {
             return View();
+        }
+        public IActionResult Lista()
+        {
+            var tipoPagamento = new TipoPagamentoModel();
+            return View(tipoPagamento);
+        }
+        public IActionResult Editar(int id, string produto, string preco, string quantidade, string desconto, IFormFile imagem)
+        {
+
+            ViewBag.id = id;
+            if (!string.IsNullOrEmpty(produto) && !string.IsNullOrEmpty(preco) && !string.IsNullOrEmpty(quantidade) && !string.IsNullOrEmpty(desconto) && id != 0)
+            {
+                Mensagens.GetInstancia().Mensagem = string.Empty;
+
+                var produtos = new ProdutosModel();
+                var entidate = new ProdutosEntity();
+
+
+                entidate.Id = id;
+                entidate.Nome = produto;
+                entidate.Preco = Convert.ToDecimal(preco);
+                entidate.Quantidade = Convert.ToInt32(quantidade);
+                entidate.Desconto = Convert.ToInt32(desconto);
+
+                if (imagem != null)
+                {
+                    var img = Upload(imagem);
+                    entidate.Imagem = img;
+                }
+                else
+                {
+                    var prod = new ProdutosModel();
+                    var prodId = prod.ListarProdutosById(id);
+                    entidate.Imagem = prodId[0].Imagem;
+                }
+                TempData["sms"] = produtos.Editar(entidate);
+                Mensagens.GetInstancia().Mensagem = TempData["sms"].ToString();
+            }
+            else
+            {
+                return View("Editar", produto);
+            }
+            return View("Lista", produto);
+        }
+        public IActionResult Eliminar(int id)
+        {
+            var produto = new ProdutosModel();
+            var entidade = new ProdutosEntity();
+            Mensagens.GetInstancia().Mensagem = string.Empty;
+            if (id != 0)
+            {
+
+                entidade.Id = id;
+                string resposta = produto.VerificarSeJaFoiVendido(id);
+                if (resposta == "ok")
+                {
+                    TempData["sms"] = produto.Eliminar(entidade);
+                    Mensagens.GetInstancia().Mensagem = resposta;
+                }
+                else
+                {
+                    TempData["sms"] = resposta;
+                    Mensagens.GetInstancia().Mensagem = resposta;
+                    return RedirectToAction("Lista", TempData["sms"]);
+                }
+            }
+            else
+            {
+                Mensagens.GetInstancia().Mensagem = string.Empty;
+                return RedirectToAction("Lista");
+            }
+            return RedirectToAction("Lista");
+        }
+        public string Upload(IFormFile foto)
+        {
+            string caminhoParaSalverImagem = $"{caminhoServidor}\\imagens\\";
+            string novoNomeImagem = Guid.NewGuid().ToString() + "_" + foto.FileName;
+            if (!Directory.Exists(caminhoParaSalverImagem))
+            {
+                Directory.CreateDirectory(caminhoParaSalverImagem);
+            }
+            using (var stream = System.IO.File.Create(caminhoParaSalverImagem + novoNomeImagem))
+            {
+                foto.CopyToAsync(stream);
+            }
+            return novoNomeImagem;
         }
     }
 }

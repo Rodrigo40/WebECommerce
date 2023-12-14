@@ -18,6 +18,7 @@ namespace WebECommerce.Controllers
         {
             try
             {
+                Mensagens.GetInstancia().Mensagem = string.Empty;
                 var produtos = new ProdutosModel();
                 var lista = produtos.ListarProdutos();
                 if (lista.Count != 0)

@@ -52,7 +52,7 @@ namespace WebECommerce.Controllers
 
                             await HttpContext.SignInAsync("CookieAuthentication",
                             principal, new AuthenticationProperties());
-                           
+
 
                             return RedirectToAction("Index", "Home");
                         }
@@ -78,6 +78,7 @@ namespace WebECommerce.Controllers
             UsuarioEntity.GetInstancia().Email = string.Empty;
 
             await HttpContext.SignOutAsync("CookieAuthentication");
+            HttpContext.User = null;
             return RedirectToAction("Index", "Home");
         }
         public IActionResult Novo(string nome, string email, string password, string idTipo)

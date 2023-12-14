@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Editar";
+}
+<br />
+<br />
+<br />
+<br />
+@model ProdutosModel
+<div class="rounded d-flex justify-content-center">
+    <div class="col-md-4 col-sm-12 shadow-lg p-7 bg-light">
+        <div class="text-center">
+            <h3 class="text-primary">Editar produto</h3>
+        </div>
+        @{
+            int idProduto = Convert.ToInt32(ViewBag.id);
+            foreach (var prod in Model.ListarProdutosById(idProduto))
+            {
+                <img src="~/imagens/@prod.Imagem" style="width:80px;height:70px;margin-left:25px"/>
+                <form action="/Produto/Editar" method="post" enctype="multipart/form-data">
+
+                    <div class="p-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-circle-arrow-up text-white"></i>
+                            </span> 
+                            <span class="input-group-text bg-primary">
+                                Produto
+                            </span>
+                            <input type="text" class="form-control" placeholder="Nome do produto" name="produto" required="required" value="@prod.Nome"/>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-money-bill text-white"></i>
+                            </span>
+                            <span class="input-group-text bg-primary">
+                                Preço
+                            </span>
+                            <input type="text" class="form-control" placeholder="Preço do produto" name="preco" required="required" value="@prod.Preco">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-list-numeric text-white"></i>
+                            </span>
+                            <span class="input-group-text bg-primary">
+                                Quantidade
+                            </span>
+                            <input type="text" class="form-control" placeholder="Quantidade" name="quantidade" required="required" value="@prod.Quantidade">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-list-numeric text-white"></i>
+                            </span>
+                            <span class="input-group-text bg-primary">
+                                Desconto
+                            </span>
+                            <input type="text" class="form-control" placeholder="Desconto" name="desconto" required="required" value="@prod.Desconto">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-image text-white"></i>
+                            </span>
+                            <input type="file" class="form-control" placeholder="Imagem" name="imagem" value="@prod.Imagem">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Finalizar</button>
+                            <a asp-area="" asp-controller="Produto" asp-action="Lista" class="btn btn-danger">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            }
+        }
+    </div>
+</div>
+<br />
+<br />
+<br />
+
