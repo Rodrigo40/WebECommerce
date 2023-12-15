@@ -89,8 +89,8 @@
     <div class="search-popup">
         <div class="search-popup-container">
 
-            <form role="search" method="get" class="search-form" action="">
-                <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="s" />
+            <form role="search" method="post" class="search-form" action="Produto/Pesquisa">
+                <input type="search" id="search-form" class="search-field" placeholder="Pesquise aqui o seu novo produto" name="pesquisa" />
                 <button type="submit" class="search-submit"><svg class="search"><use xlink:href="#search"></use></svg></button>
             </form>
 
@@ -165,10 +165,10 @@
                                 <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Pages</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="about.html" class="dropdown-item">Sobre</a>
+                                        <a asp-area="" asp-controller="Home" asp-action="Sobre" class="dropdown-item">Sobre</a>
                                     </li>
                                     <li>
-                                        <a href="contact.html" class="dropdown-item">Contactos</a>
+                                        <a asp-area="" asp-controller="Home" asp-action="Contacto" class="dropdown-item">Contactos</a>
                                     </li>
                                 </ul>
                             </li>

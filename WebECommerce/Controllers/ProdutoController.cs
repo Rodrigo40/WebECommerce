@@ -148,11 +148,11 @@ namespace WebECommerce.Controllers
             }
             return novoNomeImagem;
         }
-        public IActionResult Salvar(string id,string produto, string preco, string quantidade, string desconto, IFormFile imagem)
+        public IActionResult Salvar(string id, string produto, string preco, string quantidade, string desconto, IFormFile imagem)
         {
             var produtos = new ProdutosModel();
             var entidate = new ProdutosEntity();
-            int idProduto= Convert.ToInt32(id);
+            int idProduto = Convert.ToInt32(id);
             if (!string.IsNullOrEmpty(produto) && !string.IsNullOrEmpty(preco) && !string.IsNullOrEmpty(quantidade) && !string.IsNullOrEmpty(desconto) && idProduto != 0)
             {
                 Mensagens.GetInstancia().Mensagem = string.Empty;
@@ -182,6 +182,21 @@ namespace WebECommerce.Controllers
                 return View("Editar", produtos);
             }
             return RedirectToAction("Lista");
+        }
+        public IActionResult Pesquisa(string pesquisa)
+        {
+            var enty = new ProdutosEntity();
+            var produto = new ProdutosModel();
+
+            if (!string.IsNullOrEmpty(pesquisa))
+            {
+                enty.Nome = pesquisa;
+                enty.ListarProdutos = produto.PesquisarProdutos(enty);
+
+                return View(enty);
+
+            }
+            return View(enty);
         }
     }
 }

@@ -9,5 +9,7 @@
         public int Desconto { get; set; }
         public string Imagem { get; set; }
         public string DataCadastro { get; set; }
+
+        public List<ProdutosEntity> ListarProdutos { get; set; }
     }
 }

@@ -92,10 +92,10 @@ namespace WebECommerce.Models
                 //Conectando o comando com a conexão
                 cmd.Connection = con;
                 //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "pesquisarProduto"; // Consulta Sql
-                cmd.Parameters.AddWithValue("nome", produto.Nome); // Consulta Sql
+                cmd.CommandText = $"select * from produto where nome like '{produto.Nome}%'"; // Consulta Sql
+                 // Consulta Sql
                 //cmd.CommandText = "Login";
                 //cmd.Parameters.AddWithValue("email",user.Email);
                 //cmd.Parameters.AddWithValue("password",user.Password);
@@ -114,7 +114,7 @@ namespace WebECommerce.Models
                         entity.Preco = Convert.ToDecimal(adapter["preco"].ToString());
                         entity.Quantidade = Convert.ToInt32(adapter["quantidade"].ToString());
                         entity.Desconto = Convert.ToInt32(adapter["desconto"].ToString());
-                        entity.Imagem = adapter["iamgem"].ToString();
+                        entity.Imagem = adapter["imagem"].ToString();
                         entity.DataCadastro = adapter["dataCadastro"].ToString();
                         ListaProdutos.Add(entity);
                     }

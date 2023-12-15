@@ -16,23 +16,16 @@ namespace WebECommerce.Controllers
 
         public IActionResult Index()
         {
-            try
-            {
-                Mensagens.GetInstancia().Mensagem = string.Empty;
-                var produtos = new ProdutosModel();
-                var lista = produtos.ListarProdutos();
-                if (lista.Count != 0)
-                {
-                    return View(produtos);
-                }
-
-            }
-            catch (Exception)
-            {
-            }
             return View();
         }
-
+        public IActionResult Sobre()
+        {
+            return View();
+        } 
+        public IActionResult Contacto()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
