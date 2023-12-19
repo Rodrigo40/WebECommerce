@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebECommerce.Data;
@@ -20,6 +21,17 @@ builder.Services.AddAuthentication("CookieAuthentication").AddCookie("CookieAuth
     //option.AccessDeniedPath="/";
 });
 
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.MaxRequestBodySize = int.MaxValue;
+});
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.ValueLengthLimit = int.MaxValue;
+    options.MultipartBodyLengthLimit = int.MaxValue; // if don't set default value is: 128 MB
+    options.MultipartHeadersLengthLimit = int.MaxValue;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

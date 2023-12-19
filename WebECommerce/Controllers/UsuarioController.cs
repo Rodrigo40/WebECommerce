@@ -135,10 +135,11 @@ namespace WebECommerce.Controllers
             {
                 Directory.CreateDirectory(caminhoParaSalverImagem);
             }
-            using (var stream = System.IO.File.Create(caminhoParaSalverImagem + novoNomeImagem))
-            {
-                foto.CopyToAsync(stream);
-            }
+
+            string CaminhoCompleto = $"{caminhoParaSalverImagem}{novoNomeImagem}";
+          
+            FileTools.GetInstancia().SalvarImagem(CaminhoCompleto, foto);
+
             return Redirect("/");
         }
 
