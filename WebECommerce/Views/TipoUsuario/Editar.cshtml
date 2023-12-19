@@ -1,0 +1,51 @@
+﻿@using WebECommerce.Entity;
+@using WebECommerce.Models;
+@{
+    ViewData["Title"] = "Editar";
+}
+<br />
+<br />
+<br />
+<br />
+@model TipoUsuarioEntity
+<div class="rounded d-flex justify-content-center">
+    <div class="col-md-4 col-sm-12 shadow-lg p-7 bg-light">
+        <div class="text-center">
+            <h3 class="text-primary">Editar Tipo-Usuario</h3>
+        </div>
+        <form action="/TipoUsuario/Salvar" method="post">
+            @{
+                var id = ViewBag.id;
+                foreach (var item in Model.ListarTipoUsuarios)
+                {
+                    <div class="p-4">
+                        <span class="input-group-text" style="background-color:transparent;color:black;border:none;border-color:none">
+                            Códido do Tipo
+                        </span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-circle-arrow-up text-white"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Nome do tipo" name="tipo" required="required" value="@item.Tipo" />
+                        </div>
+                        <span class="input-group-text" style="background-color:transparent;color:black;border:none;border-color:none">
+                            Descrição do Tipo
+                        </span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-circle-arrow-up text-white"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Descrição do tipo" name="descricao" required="required" value="@item.Descricao">
+                            <input type="text" hidden="hidden" class="form-control" name="id" required="required" value="@item.Id">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Finalizar</button>
+                            <a asp-area="" asp-controller="TipoUsuario" asp-action="Index" class="btn btn-danger">Cancelar</a>
+                        </div>
+                    </div>
+                }
+            }
+        </form>
+    </div>
+</div>
+

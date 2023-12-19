@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebECommerce.Entity;
@@ -187,16 +188,15 @@ namespace WebECommerce.Controllers
         {
             var enty = new ProdutosEntity();
             var produto = new ProdutosModel();
-
             if (!string.IsNullOrEmpty(pesquisa))
             {
                 enty.Nome = pesquisa;
                 enty.ListarProdutos = produto.PesquisarProdutos(enty);
 
-                return View(enty);
+                return View("Pesquisa", enty);
 
             }
-            return View(enty);
+            return View("Pesquisa", enty);
         }
     }
 }

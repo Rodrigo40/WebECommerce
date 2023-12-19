@@ -8,10 +8,13 @@ namespace WebECommerce.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private string caminhoServidor;
+        private string caminhoCompleto;
+        public List<string> lista;
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment environment)
         {
             _logger = logger;
+            caminhoServidor = environment.WebRootPath;
         }
 
         public IActionResult Index()
@@ -21,7 +24,7 @@ namespace WebECommerce.Controllers
         public IActionResult Sobre()
         {
             return View();
-        } 
+        }
         public IActionResult Contacto()
         {
             return View();

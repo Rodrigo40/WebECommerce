@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace WebECommerce.Models
@@ -11,13 +10,13 @@ namespace WebECommerce.Models
         public string TestarConexaoMySql()
         {
             string resposta = string.Empty;
-            MySqlConnection conn = null;
+            //MySql.Data.MySqlClient.MySqlConnection conn = MySqlConnection();
+            MySql.Data.MySqlClient.MySqlConnection con = new MySqlConnection(Con);
             try
             {
-                conn = new MySqlConnection(Con);
-                conn.Open();
+                con.Open();
 
-                if (conn.State == ConnectionState.Open)
+                if (con.State == ConnectionState.Open)
                 {
                     resposta = "Conexão aberta com sucesso!";
                 }
@@ -28,12 +27,12 @@ namespace WebECommerce.Models
             }
             catch (Exception)
             {
-                conn = null;
+                con = null;
             }
             finally
             {
-                if (conn.State == ConnectionState.Open)
-                    conn.Dispose();
+                if (con.State == ConnectionState.Open)
+                    con.Dispose();
             }
 
             return resposta;
