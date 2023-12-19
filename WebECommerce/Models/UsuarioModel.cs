@@ -129,10 +129,9 @@ namespace WebECommerce.Models
                 //Conectando o comando com a conexão
                 cmd.Connection = con;
                 //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "listarUsuarioById";
-                cmd.Parameters.AddWithValue("id", user.Id);
+                cmd.CommandText = $"select * from usuario where id='{user.Id}';";
                 // Consulta Sql
                 //cmd.CommandText = "Login";
                 //cmd.Parameters.AddWithValue("email",user.Email);
@@ -277,15 +276,9 @@ namespace WebECommerce.Models
                 //Conectando o comando com a conexão
                 cmd.Connection = con;
                 //Definindo o tipo de comando a usar
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
-                cmd.CommandText = "editarUsuario"; // Consulta Sql
-
-                cmd.Parameters.AddWithValue("nome", user.Nome);
-                cmd.Parameters.AddWithValue("email", user.Email);
-                cmd.Parameters.AddWithValue("password", user.Password);
-                cmd.Parameters.AddWithValue("idTipo", user.IdTipo);
-                cmd.Parameters.AddWithValue("id", user.Id);
+                cmd.CommandText = $"UPDATE usuario set nome='{user.Nome}',email='{user.Email}',password='{user.Password}' where id='{user.Id}';"; // Consulta Sql
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {

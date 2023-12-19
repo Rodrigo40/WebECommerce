@@ -114,15 +114,19 @@ namespace WebECommerce.Controllers
             return View();
         }
 
-        public IActionResult Editar()
+        public IActionResult Editar(int id)
         {
-            return View();
+            var user = new UsuarioModel();
+            var entity = new UsuarioEntity();
+            entity.Id = id;
+            entity.ListaUsuario = user.ListarUsuariosById(entity);
+
+            return View(entity);
         }
         public IActionResult SalvarEdicao()
         {
             return View();
         }
-
         public IActionResult Eliminar(int id)
         {
             return View();
@@ -137,11 +141,49 @@ namespace WebECommerce.Controllers
             }
 
             string CaminhoCompleto = $"{caminhoParaSalverImagem}{novoNomeImagem}";
-          
+
             FileTools.GetInstancia().SalvarImagem(CaminhoCompleto, foto);
 
             return Redirect("/");
         }
+        public IActionResult Perfil(int id)
+        {
+            var user = new UsuarioModel();
+            var entity = new UsuarioEntity();
+            entity.Id = id;
 
+            entity.ListaUsuario = user.ListarUsuariosById(entity);
+
+            return View(entity);
+        }
+        public IActionResult Salvar(string id, string nome, string email, string password)
+        {
+            if (!string.IsNullOrEmpty(nome) && !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+            {
+                var user = new UsuarioModel();
+
+                var entity = new UsuarioEntity();
+                entity.Id = Convert.ToInt32(id);
+                entity.Nome = nome;
+                entity.Email = email;
+                entity.Password = password;
+
+                TempData["sms"] = user.Editar(entity);
+                entity.ListaUsuario = user.ListarUsuariosById(entity);
+                return View("Perfil", entity);
+            }
+            else
+            {
+                return RedirectToAction("Editar");
+            }
+        }
+        public IActionResult HistoricoCompra()
+        {
+            var produtos = new ProdutosModel();
+            var entity = new RelatorioPagamentosEntity();
+            int idCliente = UsuarioEntity.GetInstancia().Id;
+            entity.ListarPagamentos = produtos.ListarProdutosPagosClienteById(idCliente);
+            return View(entity);
+        }
     }
 }

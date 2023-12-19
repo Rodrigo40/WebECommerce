@@ -1,4 +1,5 @@
-﻿namespace WebECommerce.Entity
+﻿
+namespace WebECommerce.Entity
 {
     public class RelatorioPagamentosEntity
     {
@@ -19,5 +20,6 @@
         public decimal Total { get; set; }
         public string DataPagamento { get; set; }
         public string TipoPagamento { get; set; }
+        public List<RelatorioPagamentosEntity> ListarPagamentos { get; set; }
     }
 }

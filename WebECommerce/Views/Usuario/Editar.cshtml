@@ -1,1 +1,52 @@
-﻿
+﻿@using WebECommerce.Entity;
+@using WebECommerce.Models;
+@{
+    ViewData["Title"] = "Editar";
+}
+<br />
+<br />
+<br />
+<br />
+@model UsuarioEntity
+<div class="rounded d-flex justify-content-center">
+    <div class="col-md-4 col-sm-12 shadow-lg p-7 bg-light">
+        <div class="text-center">
+            <h3 class="text-primary">Editar Usuario</h3>
+        </div>
+        <form action="/Usuario/Salvar" method="post">
+            @{
+                var id = ViewBag.id;
+                foreach (var item in Model.ListaUsuario)
+                {
+                    <div class="p-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-circle-arrow-up text-white"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Nome" name="nome" required="required" value="@item.Nome" />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-circle-arrow-up text-white"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Email" name="email" required="required" value="@item.Email">
+                            <input type="text" hidden="hidden" class="form-control" name="id" required="required" value="@item.Id">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary">
+                                <i class="fa fa-circle-arrow-up text-white"></i>
+                            </span>
+                            <input type="password" class="form-control" placeholder="Password" name="password" required="required">
+                            <input type="text" hidden="hidden" class="form-control" name="id" required="required" value="@item.Id">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Finalizar</button>
+                            <a asp-area="" asp-controller="Usuario" asp-action="Perfil" asp-route-id="@item.Id" class="btn btn-danger">Cancelar</a>
+                        </div>
+                    </div>
+                }
+            }
+        </form>
+    </div>
+</div>
+

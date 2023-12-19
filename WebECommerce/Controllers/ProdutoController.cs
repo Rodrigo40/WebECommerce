@@ -58,7 +58,7 @@ namespace WebECommerce.Controllers
                 if (id != 0)
                 {
                     ViewBag.id = id;
-                    if (quantidade != 0 && tipo != 0 && WebECommerce.Entity.UsuarioEntity.GetInstancia().IdTipo == 2)
+                    if (quantidade != 0 && tipo != 0)
                     {
                         var Cliente = new ClienteModel(id);
                         var IdCliente = Cliente.ListaClienteById[0].Id;

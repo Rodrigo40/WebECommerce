@@ -412,6 +412,5 @@ namespace WebECommerce.Models
 
             return resposta;
         }
-
     }
 }

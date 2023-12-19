@@ -77,10 +77,6 @@
                                                 </h3>
                                             </div>
                                         </form>
-                                        <div id="info" hidden="hidden">
-                                            <h2>Este produto foi cadastrado por você!</h2>
-                                            <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-danger">Voltar</a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -93,18 +89,3 @@
     </div>
     <div class="swiper-pagination position-absolute text-center"></div>
 </section>
-@section scripts{
-    <script type="text/javascript">
-        var formulario = document.getElementById("formulario");
-        var info = document.getElementById("info");
-
-        if (@WebECommerce.Entity.UsuarioEntity.GetInstancia().IdTipo != 2) {
-            formulario.hidden = true;
-            info.hidden = false;
-            alert('Este produto foi cadastrado por você!');
-        }
-        else {
-            info.hidden = true;
-        }
-    </script>
-}

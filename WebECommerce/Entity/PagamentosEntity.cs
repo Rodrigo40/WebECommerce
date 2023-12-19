@@ -10,5 +10,6 @@
         public int Quantidade { get; set; }
         public decimal Total { get; set; }
         public string DataPagamento { get; set; }
+        public List<PagamentosEntity> ListarPagamentos { get; set; }
     }
 }

@@ -148,30 +148,38 @@
                             <li class="nav-item">
                                 <a class="nav-link me-4 active" asp-area="" asp-controller="Home" asp-action="Index">Principal</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Registrar</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a asp-area="" asp-controller="Produto" asp-action="Novo" class="dropdown-item"><i class="fa fa-project-diagram"></i> Produtos</a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="" asp-controller="TipoPagamento" asp-action="Index" class="dropdown-item"><i class="fa fa-money-bill-transfer"></i> Tipo-Pagamento</a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="" asp-controller="TipoUsuario" asp-action="Index" class="dropdown-item"><i class="fa fa-user"></i> Tipo-Usuario</a>
-                                    </li>
-                                    <li>
-                                        <a href="contact.html" class="dropdown-item"><i class="fa fa-user"></i> Usuario</a>
-                                    </li>
-                                </ul>
-                            </li>
+
+                            @if (WebECommerce.Entity.UsuarioEntity.GetInstancia().IdTipo == 1)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Registrar</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a asp-area="" asp-controller="Produto" asp-action="Novo" class="dropdown-item"><i class="fa fa-project-diagram"></i> Produtos</a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="" asp-controller="TipoPagamento" asp-action="Index" class="dropdown-item"><i class="fa fa-money-bill-transfer"></i> Tipo-Pagamento</a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="" asp-controller="TipoUsuario" asp-action="Index" class="dropdown-item"><i class="fa fa-user"></i> Tipo-Usuario</a>
+                                        </li>
+                                        <li>
+                                            <a href="contact.html" class="dropdown-item"><i class="fa fa-user"></i> Usuario</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
 
                             <li class="nav-item">
                                 <a class="nav-link me-4" href="#mobile-products">Produtos</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link me-4" asp-area="" asp-controller="Produto" asp-action="Vendidos">Produtos vendidos</a>
-                            </li>
+
+                            @if (WebECommerce.Entity.UsuarioEntity.GetInstancia().IdTipo == 1)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link me-4" asp-area="" asp-controller="Produto" asp-action="Vendidos">Produtos vendidos</a>
+                                </li>
+                            }
                             <li class="nav-item dropdown">
                                 <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Pages</a>
                                 <ul class="dropdown-menu">
@@ -207,7 +215,7 @@
                                                     </svg>
                                                     @if (User.Identity.Name.Length == 13)
                                                     {
-                                                        @User.Identity.Name.Substring(0,13)
+                                                        @User.Identity.Name.Substring(0, 13)
                                                         ;
                                                     }
                                                     else
@@ -217,9 +225,12 @@
                                                     }
                                                 </a>
                                             </li>
-                                            <li class="pe-3">
-                                                <a asp-area="" asp-controller="Usuario" asp-action="Perfil">Perfil</a>
-                                            </li>
+                                            @if (WebECommerce.Entity.UsuarioEntity.GetInstancia().Id != 0)
+                                            {
+                                                <li class="pe-3">
+                                                    <a asp-area="" asp-controller="Usuario" asp-action="Perfil" asp-route-id="@WebECommerce.Entity.UsuarioEntity.GetInstancia().Id"><i class="fa fa-user-check"></i> Perfil</a>
+                                                </li>
+                                            }
                                         }
                                         else
                                         {
@@ -231,13 +242,16 @@
                                                 </a>
                                             </li>
                                         }
-                                        <li>
-                                            <a href="cart.html">
-                                                <svg class="cart">
-                                                    <use xlink:href="#cart"></use>
-                                                </svg>
-                                            </a>
-                                        </li>
+                                        @if (WebECommerce.Entity.UsuarioEntity.GetInstancia().Id != 0)
+                                        {
+                                            <li>
+                                                <a asp-area="" asp-controller="Usuario" asp-action="HistoricoCompra" asp-route-id="@WebECommerce.Entity.UsuarioEntity.GetInstancia().Id">
+                                                    <svg class="cart">
+                                                        <use xlink:href="#cart"></use>
+                                                    </svg>
+                                                </a>
+                                            </li>
+                                        }
                                     </ul>
                                 </div>
                             </li>
