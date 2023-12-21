@@ -151,12 +151,12 @@ namespace WebECommerce.Models
                 cmd.CommandType = CommandType.Text;
                 //Definindo o comando de consulta sql
                 cmd.CommandText = $"select * from produto where nome like '{produto.Nome}%'"; // Consulta Sql
-                 // Consulta Sql
-                //cmd.CommandText = "Login";
-                //cmd.Parameters.AddWithValue("email",user.Email);
-                //cmd.Parameters.AddWithValue("password",user.Password);
-                //Definindo o objeto MySqlDataReader para executar o comando
-                //E Ler a resposta ou seja: trará a resposta do comando
+                                                                                              // Consulta Sql
+                                                                                              //cmd.CommandText = "Login";
+                                                                                              //cmd.Parameters.AddWithValue("email",user.Email);
+                                                                                              //cmd.Parameters.AddWithValue("password",user.Password);
+                                                                                              //Definindo o objeto MySqlDataReader para executar o comando
+                                                                                              //E Ler a resposta ou seja: trará a resposta do comando
                 MySqlDataReader adapter = cmd.ExecuteReader();
 
                 //Verifinado se exitem linhas na resposta do comando
@@ -237,6 +237,98 @@ namespace WebECommerce.Models
                 cmd = null;
             }
             return ListaProdutos;
+        }
+        public string AtualizarStockProduto(int id, int quantidade)
+        {
+            string resposta = string.Empty;
+            ConexaoModel conex = new ConexaoModel();
+            //Instanciando a class de conexão do MySql
+            MySqlConnection con = new MySqlConnection();
+            //Instanciando a class de comando do MySql
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+                int qtd = GetQuantidadeProdutoById(id) - quantidade;
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.Text;
+                //Definindo o comando de consulta sql
+                if (qtd > 0)
+                {
+                    cmd.CommandText = $"UPDATE produto set quantidade ='{qtd}' WHERE id='{id}';"; // Consulta Sql
+                }
+                //cmd.CommandText = "Login";
+
+                //Verifinado se exitem linhas na resposta do comando
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    resposta = "ok";
+                }
+                else
+                {
+                    resposta = "0";
+                }
+
+            }
+            catch (Exception)
+            {
+                con = null;
+                cmd = null;
+            }
+            return resposta;
+        }
+        public int GetQuantidadeProdutoById(int id)
+        {
+            int resposta = 0;
+            ConexaoModel conex = new ConexaoModel();
+            //Instanciando a class de conexão do MySql
+            MySqlConnection con = new MySqlConnection();
+            //Instanciando a class de comando do MySql
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+
+                //Definindo a conexão string
+                con.ConnectionString = conex.GetConnection();
+                //Abrindo a conexão com o servidor
+                con.Open();
+
+                //Conectando o comando com a conexão
+                cmd.Connection = con;
+                //Definindo o tipo de comando a usar
+                cmd.CommandType = CommandType.Text;
+                //Definindo o comando de consulta sql
+                cmd.CommandText = $"SELECT quantidade from produto where id='{id}';"; // Consulta Sql
+                                                                                      //cmd.CommandText = "Login";
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                //Verifinado se exitem linhas na resposta do comando
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        resposta = Convert.ToInt32(dr[0].ToString());
+                    }
+                    dr.Close();
+                }
+                else
+                {
+                    resposta = 0;
+                }
+
+            }
+            catch (Exception)
+            {
+                con = null;
+                cmd = null;
+            }
+            return resposta;
         }
         public List<ProdutosEntity> ListarProdutosClienteById(int id)
         {

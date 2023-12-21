@@ -60,9 +60,10 @@ namespace WebECommerce.Controllers
                     ViewBag.id = id;
                     if (quantidade != 0 && tipo != 0)
                     {
-                        var Cliente = new ClienteModel(id);
+                        var Cliente = new ClienteModel(UsuarioEntity.GetInstancia().Id);
                         var IdCliente = Cliente.ListaClienteById[0].Id;
                         var pagamento = new PagamentosModel();
+                        var produto = new ProdutosModel();
 
                         var pagamentoEntity = new PagamentosEntity();
                         pagamentoEntity.DataPagamento = DateTime.Now.ToShortDateString();
@@ -78,6 +79,7 @@ namespace WebECommerce.Controllers
                         pagamentoEntity.Total = precoProduto * quantidade - descontoProduto;
 
                         TempData["sms"] = pagamento.Novo(pagamentoEntity);
+                        TempData["sms"] = produto.AtualizarStockProduto(id, quantidade);
 
                         return RedirectToAction("Index", "Home");
                     }

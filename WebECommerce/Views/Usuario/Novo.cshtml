@@ -44,7 +44,14 @@
                             <input name="idTipo" type="text" value="2"> <i class="zmdi zmdi-eye material-icons-name"> IdTipo</i>
                         </div>
                         <div class="links">
-                            <a asp-area="" asp-action="Login">Eu tenho uma conta!</a>
+                            @if (WebECommerce.Entity.UsuarioEntity.GetInstancia().IdTipo == 1)
+                            {
+                                <a asp-area="" asp-controller="Usuario" asp-action="ListarUsuario">Voltar</a>
+                            }
+                            else
+                            {
+                                <a a sp-area="" asp-action="Login">Eu tenho uma conta!</a>
+                            }
                         </div>
                         <br />
                         <div class="inputBox">

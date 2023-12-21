@@ -113,7 +113,6 @@ namespace WebECommerce.Controllers
             }
             return View();
         }
-
         public IActionResult Editar(int id)
         {
             var user = new UsuarioModel();
@@ -122,6 +121,46 @@ namespace WebECommerce.Controllers
             entity.ListaUsuario = user.ListarUsuariosById(entity);
 
             return View(entity);
+        }       
+        public IActionResult ListarUsuario()
+        {
+            var usuario = new UsuarioModel();
+            return View(usuario);
+        }
+        public IActionResult SalvarEdicaoUsuario(string id, string nome, string email, string password)
+        {
+            if (!string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(nome) && !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+            {
+                int ID = Convert.ToInt32(id);
+
+                var enty = new UsuarioEntity();
+                var usuario = new UsuarioModel();
+
+                enty.Id = ID;
+
+
+                enty.Nome = nome;
+                enty.Email = email;
+                enty.Password = password;
+                TempData["sms"] = usuario.Editar(enty);
+
+                return RedirectToAction("ListarUsuario");
+            }
+            return RedirectToAction("Editar");
+        }
+        public IActionResult EditarUsuario(int id)
+        {
+            //ViewBag.id = id;
+            //var Tipo = new UsuarioModel();
+            //var TipoEnty = new UsuarioEntity();
+
+            //TipoEnty.ListaUsuario = Tipo.ListarUsuariosById(id);
+            // return View(Tipo);
+            var user = new UsuarioModel();
+            var Enty = new UsuarioEntity();
+            Enty.Id = id;
+            Enty.ListaUsuario = user.ListarUsuariosById(Enty);
+            return View(Enty);
         }
         public IActionResult SalvarEdicao()
         {
@@ -131,6 +170,17 @@ namespace WebECommerce.Controllers
         {
             return View();
         }
+        public IActionResult EliminarUsuario(int id)
+        {
+            var user = new UsuarioModel();
+            var Enty = new UsuarioEntity();
+
+            Enty.Id = id;
+            TempData["sms"] = user.Eliminar(Enty);
+            return View("ListarUsuario", user);
+
+        }
+
         public IActionResult Upload(IFormFile foto)
         {
             string caminhoParaSalverImagem = $"{caminhoServidor}\\images\\";

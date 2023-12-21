@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Editar Usuário";
+}
+
+@using WebECommerce.Entity;
+@model UsuarioEntity;
+<br />
+<br />
+<br />
+<br />
+<div class="alert alert-primary" style="background-color:#2582C5">
+    <h1 class="text-center" style="color:white">Editar Usuário</h1>
+</div>
+
+<div class="text-center">
+    <form method="post">
+        <input name="nome" type="text" class="form-group" placeholder="Nome" style="width:200px" value="@Model.ListaUsuario[0].Nome" required="required" />
+        <br />
+        <br />
+        <input name="email" type="text" class="form-group" placeholder="Email" style="width:200px" value="@Model.ListaUsuario[0].Email" required="required" />
+        <br />
+        <br />
+        <input name="password" type="password" class="form-group" placeholder="Nova senha" style="width:200px" required="required" />
+        <input hidden="hidden" name="id" type="text" class="form-group" style="width:200px" value="@Model.ListaUsuario[0].Id" required="required" />
+        <br />
+        <br />
+
+        <br />
+        <input type="submit" asp-area="" asp-action="SalvarEdicaoUsuario" class="btn btn-primary" style="width:98px;height:40px;" />
+        <a asp-area="" asp-action="ListarUsuario" class="btn btn-danger" style="width:98px;height:40px">Cancelar</a>
+    </form>
+</div>
